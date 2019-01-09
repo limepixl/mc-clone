@@ -1,7 +1,10 @@
-#version 450 core
+#version 460 core
+in vec2 TexPos;
 out vec4 color;
+
+uniform sampler2D tex;
 
 void main()
 {
-	color = vec4(1.0, 1.0, 0.0, 1.0);
+	color = texture(tex, TexPos);
 }

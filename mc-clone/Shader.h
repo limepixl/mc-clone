@@ -13,4 +13,6 @@ public:
 	~Shader();
 
 	void use();
+
+	void setInt(const char* location, int value);
 };
