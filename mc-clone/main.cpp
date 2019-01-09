@@ -13,6 +13,20 @@
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
 
+std::vector<float> normalizeTexCoordinates(std::vector<int>& texCoordinates, int imageWidth, int imageHeight)
+{
+	std::vector<float> normalized;
+	normalized.reserve(texCoordinates.size());
+
+	for(int i = 0; i <= texCoordinates.size() - 2; i+=2)
+	{
+		normalized.push_back(texCoordinates[i] / (float)imageWidth);
+		normalized.push_back(texCoordinates[i + 1] / (float)imageHeight);
+	}
+
+	return normalized;
+}
+
 int main() {
 	// GLFW init	
 	glfwInit();
@@ -102,39 +116,68 @@ int main() {
 		22, 23, 20
 	};
 
-	std::vector<float> texPositions
+	std::vector<int> texPositionsInteger 
 	{
 		// Back
-		0.09375f, 0.9375f,
-		0.125f, 0.9375f,
-		0.125f, 1.0f,
-		0.09375f, 1.0f,
+		96, 480,
+		128, 480,
+		128, 512,
+		96, 512,
 		// Front
-		0.09375f, 0.9375f,
-		0.125f, 0.9375f,
-		0.125f, 1.0f,
-		0.09375f, 1.0f,
+		96, 480,
+		128, 480,
+		128, 512,
+		96, 512,
 		// Right
-		0.09375f, 0.9375f,
-		0.125f, 0.9375f,
-		0.125f, 1.0f,
-		0.09375f, 1.0f,
+		96, 480,
+		128, 480,
+		128, 512,
+		96, 512,
 		// Left
-		0.09375f, 0.9375f,
-		0.125f, 0.9375f,
-		0.125f, 1.0f,
-		0.09375f, 1.0f,
+		96, 480,
+		128, 480,
+		128, 512,
+		96, 512,
 		// Top
-		0.0625f, 0.9375f,
-		0.09375f, 0.9375f,
-		0.09375f, 1.0f,
-		0.0625f, 1.0f,
+		64, 480,
+		96, 480,
+		96, 512,
+		64, 512,
 		// Bottom
-		0.34375f, 0.875f,
-		0.375f, 0.875f,
-		0.375f, 0.9375f,
-		0.34375f, 0.9375f,
+		352, 448,
+		384, 448,
+		384, 480,
+		352, 480
 	};
+	
+	// Texture creation
+	unsigned int texture;
+	glGenTextures(1, &texture);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	// Image loading
+	int x, y, channels;
+	stbi_set_flip_vertically_on_load(true);
+	unsigned char* data = stbi_load("C:/dev/GitHub/mc-clone/mc-clone/res/images/minecraft.png", &x, &y, &channels, 4);
+	if(data == nullptr)
+	{
+		std::cout << "Failed to load image!\n";
+	}
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	stbi_image_free(data);
+
+	// Get normalized texture coordinates
+	std::vector<float> texPositions = normalizeTexCoordinates(texPositionsInteger, x, y);
 
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
@@ -168,30 +211,6 @@ int main() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-
-	unsigned int texture;
-	glGenTextures(1, &texture);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	int x, y, channels;
-	stbi_set_flip_vertically_on_load(true);
-	unsigned char* data = stbi_load("C:/dev/GitHub/mc-clone/mc-clone/res/images/minecraft.png", &x, &y, &channels, 4);
-	if(data == nullptr)
-	{
-		std::cout << "Failed to load image!\n";
-	}
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	stbi_image_free(data);
 
 	shader.use();
 	shader.setInt("tex", 0);
