@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <glad/glad.h>
 
@@ -76,4 +77,10 @@ void Shader::setInt(const char* location, int value)
 {
 	int loc = glGetUniformLocation(ID, location);
 	glUniform1i(loc, value);
+}
+
+void Shader::setMat4(const char* location, const glm::mat4 & value)
+{
+	int loc = glGetUniformLocation(ID, location);
+	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(value));
 }

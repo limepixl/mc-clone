@@ -1,4 +1,6 @@
 #pragma once
+#include <glm/glm.hpp>
+
 class Shader
 {
 private:
@@ -15,4 +17,5 @@ public:
 	void use();
 
 	void setInt(const char* location, int value);
+	void setMat4(const char* location, const glm::mat4& value);
 };
