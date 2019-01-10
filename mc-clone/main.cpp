@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "Shader.h"
+#include "Camera.h"
 #include <iostream>
 #include <vector>
 
@@ -13,6 +14,7 @@
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
 
+// Translates full texture coordinates into coordinates in normalized space
 std::vector<float> normalizeTexCoordinates(std::vector<int>& texCoordinates, int imageWidth, int imageHeight)
 {
 	std::vector<float> normalized;
@@ -36,7 +38,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Window and context creation
-	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(800, 600, "Test", NULL, NULL);
 	if(window == NULL) {
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
@@ -52,9 +54,18 @@ int main() {
 
 	glViewport(0, 0, WIDTH, HEIGHT);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
 
 	// Shader
-	Shader shader("C:/dev/GitHub/mc-clone/mc-clone/res/shaders/vertex.glsl", "C:/dev/GitHub/mc-clone/mc-clone/res/shaders/fragment.glsl");
+	Shader shader("C:/dev/GitHub/mc-clone/mc-clone/res/shaders/blockV.glsl", "C:/dev/GitHub/mc-clone/mc-clone/res/shaders/blockF.glsl");
+
+	// Camera initialization
+	Camera cam(WIDTH, HEIGHT);
+
+	// NOTE: Display func.
+	double deltaTime = 0.0;
+	double lastFrame = 0.0;
+	// END
 
 	std::vector<float> vexPositions
 	{
@@ -211,26 +222,30 @@ int main() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &tVBO);
 
 	shader.use();
 	shader.setInt("tex", 0);
 
 	// Render loop
 	while(!glfwWindowShouldClose(window)) {
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		double currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+
+		lastFrame = currentFrame;
+		glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		cam.processCamMovement(window, deltaTime);
 
 		glm::mat4 model(1.0);
 		model = glm::rotate(model, (float)glfwGetTime() / 2.0f, { 0.0f, 1.0f, 0.0f });
 		shader.setMat4("model", model);
 
-		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)WIDTH / HEIGHT, 0.1f, 100.0f);
-		shader.setMat4("projection", projection);
+		shader.setMat4("projection", cam.projMatrix);
 
-		glm::mat4 view(1.0);
-		view = glm::translate(view, {0.0f, -0.5f, -5.0f});
-		view = glm::rotate(view, glm::radians(10.0f), { 1.0f,0.0f, 0.0f });
-		shader.setMat4("view", view);
+		shader.setMat4("view", cam.viewMatrix);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
@@ -253,3 +268,4 @@ int main() {
 	glfwTerminate();
 	return 0;
 }
+
