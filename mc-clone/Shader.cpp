@@ -1,34 +1,13 @@
 #include "Shader.h"
-#include <fstream>
-#include <string>
-#include <sstream>
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 
 #include <glad/glad.h>
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath)
+Shader::Shader(const char* vSource, const char* fSource)
 {
-	std::ifstream vRaw, fRaw;
-	vRaw.open(vertexPath);
-	fRaw.open(fragmentPath);
-
-	std::stringstream vSource, fSource;
-	vSource << vRaw.rdbuf();
-	fSource << fRaw.rdbuf();
-
-	vRaw.close();
-	fRaw.close();
-
-	std::string vString, fString;
-	vString = vSource.str();
-	fString = fSource.str();
-
-	m_vSource = vString.c_str();
-	m_fSource = fString.c_str();
-
 	unsigned int vertex = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertex, 1, &m_vSource, 0);
+	glShaderSource(vertex, 1, &vSource, 0);
 	glCompileShader(vertex);
 
 	int compiled;
@@ -42,7 +21,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	}
 
 	unsigned int fragment = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment, 1, &m_fSource, 0);
+	glShaderSource(fragment, 1, &fSource, 0);
 	glCompileShader(fragment);
 
 	glGetShaderiv(fragment, GL_COMPILE_STATUS, &compiled);
@@ -73,14 +52,17 @@ void Shader::use()
 	glUseProgram(ID);
 }
 
-void Shader::setInt(const char* location, int value)
+void Shader::setInt(int location, int value)
 {
-	int loc = glGetUniformLocation(ID, location);
-	glUniform1i(loc, value);
+	glUniform1i(location, value);
 }
 
-void Shader::setMat4(const char* location, const glm::mat4 & value)
+void Shader::setMat4(int location, const glm::mat4 & value)
 {
-	int loc = glGetUniformLocation(ID, location);
-	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(value));
+	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+int Shader::getUniformLocation(const char* location)
+{
+	return glGetUniformLocation(ID, location);
 }

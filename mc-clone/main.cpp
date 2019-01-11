@@ -1,7 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "Shader.h"
-#include "Camera.h"
+#include "Camera/Camera.h"
+#include "RM/ResourceManager.h"
 #include <iostream>
 #include <vector>
 
@@ -14,13 +14,21 @@
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
 
+enum Uniform
+{
+	MODEL,
+	PROJECTION,
+	VIEW,
+	TEX
+};
+
 // Translates full texture coordinates into coordinates in normalized space
 std::vector<float> normalizeTexCoordinates(std::vector<int>& texCoordinates, int imageWidth, int imageHeight)
 {
 	std::vector<float> normalized;
 	normalized.reserve(texCoordinates.size());
 
-	for(int i = 0; i <= texCoordinates.size() - 2; i+=2)
+	for(int i = 0; i <= texCoordinates.size() - 2; i += 2)
 	{
 		normalized.push_back(texCoordinates[i] / (float)imageWidth);
 		normalized.push_back(texCoordinates[i + 1] / (float)imageHeight);
@@ -29,7 +37,8 @@ std::vector<float> normalizeTexCoordinates(std::vector<int>& texCoordinates, int
 	return normalized;
 }
 
-int main() {
+int main()
+{
 	// GLFW init	
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -39,7 +48,8 @@ int main() {
 
 	// Window and context creation
 	GLFWwindow* window = glfwCreateWindow(800, 600, "Test", NULL, NULL);
-	if(window == NULL) {
+	if(window == NULL)
+	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		return -1;
@@ -47,7 +57,8 @@ int main() {
 	glfwMakeContextCurrent(window);
 
 	// GLAD init
-	if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+	if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
@@ -57,7 +68,7 @@ int main() {
 	glEnable(GL_BLEND);
 
 	// Shader
-	Shader shader("C:/dev/GitHub/mc-clone/mc-clone/res/shaders/blockV.glsl", "C:/dev/GitHub/mc-clone/mc-clone/res/shaders/blockF.glsl");
+	Shader shader = RM::loadShader("C:/dev/GitHub/mc-clone/mc-clone/res/shaders/blockV.glsl", "C:/dev/GitHub/mc-clone/mc-clone/res/shaders/blockF.glsl");
 
 	// Camera initialization
 	Camera cam(WIDTH, HEIGHT);
@@ -127,7 +138,7 @@ int main() {
 		22, 23, 20
 	};
 
-	std::vector<int> texPositionsInteger 
+	std::vector<int> texPositionsInteger
 	{
 		// Back
 		96, 480,
@@ -160,7 +171,7 @@ int main() {
 		384, 480,
 		352, 480
 	};
-	
+
 	// Texture creation
 	unsigned int texture;
 	glGenTextures(1, &texture);
@@ -225,27 +236,35 @@ int main() {
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &tVBO);
 
+	// Get uniform locations
+	std::vector<int> uniformLocations;
+	uniformLocations.push_back(shader.getUniformLocation("model"));
+	uniformLocations.push_back(shader.getUniformLocation("projection"));
+	uniformLocations.push_back(shader.getUniformLocation("view"));
+	uniformLocations.push_back(shader.getUniformLocation("tex"));
+
 	shader.use();
-	shader.setInt("tex", 0);
+	shader.setInt(uniformLocations[TEX], 0);
 
 	// Render loop
-	while(!glfwWindowShouldClose(window)) {
+	while(!glfwWindowShouldClose(window))
+	{
+		// Delta time calculation
 		double currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
-
 		lastFrame = currentFrame;
+
 		glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		cam.processCamMovement(window, deltaTime);
 
+		// Setting up matrices
 		glm::mat4 model(1.0);
 		model = glm::rotate(model, (float)glfwGetTime() / 2.0f, { 0.0f, 1.0f, 0.0f });
-		shader.setMat4("model", model);
-
-		shader.setMat4("projection", cam.projMatrix);
-
-		shader.setMat4("view", cam.viewMatrix);
+		shader.setMat4(uniformLocations[MODEL], model);
+		shader.setMat4(uniformLocations[PROJECTION], cam.projMatrix);
+		shader.setMat4(uniformLocations[VIEW], cam.viewMatrix);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);

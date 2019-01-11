@@ -3,19 +3,17 @@
 
 class Shader
 {
-private:
+public:
 	unsigned int ID;
 
-	const char* m_vSource;
-	const char* m_fSource;
-
-public:
-	Shader(const char* vertexPath, const char* fragmentPath);
+	Shader(const char* vertexSource, const char* fragmentSource);
 
 	~Shader();
 
 	void use();
 
-	void setInt(const char* location, int value);
-	void setMat4(const char* location, const glm::mat4& value);
+	void setInt(int location, int value);
+	void setMat4(int location, const glm::mat4& value);
+
+	int getUniformLocation(const char* location);
 };
