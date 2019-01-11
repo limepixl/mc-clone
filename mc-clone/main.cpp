@@ -14,14 +14,6 @@
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
 
-enum Uniform
-{
-	MODEL,
-	PROJECTION,
-	VIEW,
-	TEX
-};
-
 // Translates full texture coordinates into coordinates in normalized space
 std::vector<float> normalizeTexCoordinates(std::vector<int>& texCoordinates, int imageWidth, int imageHeight)
 {
@@ -237,14 +229,17 @@ int main()
 	glDeleteBuffers(1, &tVBO);
 
 	// Get uniform locations
-	std::vector<int> uniformLocations;
-	uniformLocations.push_back(shader.getUniformLocation("model"));
-	uniformLocations.push_back(shader.getUniformLocation("projection"));
-	uniformLocations.push_back(shader.getUniformLocation("view"));
-	uniformLocations.push_back(shader.getUniformLocation("tex"));
+	std::vector<std::string> uniforms
+	{
+		"model",
+		"projection",
+		"view",
+		"tex"
+	};
 
 	shader.use();
-	shader.setInt(uniformLocations[TEX], 0);
+	shader.findUniformLocations(uniforms);
+	shader.setInt(TEX, 0);
 
 	// Render loop
 	while(!glfwWindowShouldClose(window))
@@ -262,9 +257,9 @@ int main()
 		// Setting up matrices
 		glm::mat4 model(1.0);
 		model = glm::rotate(model, (float)glfwGetTime() / 2.0f, { 0.0f, 1.0f, 0.0f });
-		shader.setMat4(uniformLocations[MODEL], model);
-		shader.setMat4(uniformLocations[PROJECTION], cam.projMatrix);
-		shader.setMat4(uniformLocations[VIEW], cam.viewMatrix);
+		shader.setMat4(MODEL, model);
+		shader.setMat4(PROJECTION, cam.projMatrix);
+		shader.setMat4(VIEW, cam.viewMatrix);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);

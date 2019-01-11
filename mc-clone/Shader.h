@@ -1,8 +1,21 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <vector>
+#include <string>
+
+enum UniformLocations
+{
+	MODEL,
+	PROJECTION,
+	VIEW,
+	TEX
+};
 
 class Shader
 {
+private:
+	std::vector<int> m_uniformLocations;
+	std::vector<std::string> m_uniforms;
 public:
 	unsigned int ID;
 
@@ -12,8 +25,10 @@ public:
 
 	void use();
 
-	void setInt(int location, int value);
-	void setMat4(int location, const glm::mat4& value);
+	void setInt(int index, int value);
+	void setMat4(int index, const glm::mat4& value);
 
 	int getUniformLocation(const char* location);
+
+	void findUniformLocations(const std::vector<std::string>& locations);
 };
