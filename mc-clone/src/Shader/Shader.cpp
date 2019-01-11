@@ -52,17 +52,29 @@ void Shader::use()
 	glUseProgram(ID);
 }
 
-void Shader::setInt(int location, int value)
+void Shader::setInt(int index, int value)
 {
-	glUniform1i(location, value);
+	glUniform1i(m_uniformLocations[index], value);
 }
 
-void Shader::setMat4(int location, const glm::mat4 & value)
+void Shader::setMat4(int index, const glm::mat4 & value)
 {
-	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+	glUniformMatrix4fv(m_uniformLocations[index], 1, GL_FALSE, glm::value_ptr(value));
 }
 
 int Shader::getUniformLocation(const char* location)
 {
 	return glGetUniformLocation(ID, location);
+}
+
+void Shader::findUniformLocations(const std::vector<std::string>& locations)
+{
+	// Store the uniform order
+	//m_uniforms = locations;
+
+	// Find all uniform locations
+	for(auto& loc : locations)
+	{
+		m_uniformLocations.push_back(glGetUniformLocation(ID, loc.c_str()));
+	}
 }

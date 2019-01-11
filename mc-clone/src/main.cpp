@@ -1,26 +1,18 @@
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include "Camera/Camera.h"
 #include "RM/ResourceManager.h"
+#include "Display/Display.h"
 #include <iostream>
 #include <vector>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "RM/stb_image.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
-
-enum Uniform
-{
-	MODEL,
-	PROJECTION,
-	VIEW,
-	TEX
-};
 
 // Translates full texture coordinates into coordinates in normalized space
 std::vector<float> normalizeTexCoordinates(std::vector<int>& texCoordinates, int imageWidth, int imageHeight)
@@ -39,44 +31,14 @@ std::vector<float> normalizeTexCoordinates(std::vector<int>& texCoordinates, int
 
 int main()
 {
-	// GLFW init	
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	// Window and context creation
-	GLFWwindow* window = glfwCreateWindow(800, 600, "Test", NULL, NULL);
-	if(window == NULL)
-	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
-
-	// GLAD init
-	if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
-	}
-
-	glViewport(0, 0, WIDTH, HEIGHT);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
+	// Window creation
+	Display display(WIDTH, HEIGHT);
 
 	// Shader
 	Shader shader = RM::loadShader("C:/dev/GitHub/mc-clone/mc-clone/res/shaders/blockV.glsl", "C:/dev/GitHub/mc-clone/mc-clone/res/shaders/blockF.glsl");
 
 	// Camera initialization
 	Camera cam(WIDTH, HEIGHT);
-
-	// NOTE: Display func.
-	double deltaTime = 0.0;
-	double lastFrame = 0.0;
-	// END
 
 	std::vector<float> vexPositions
 	{
@@ -237,34 +199,35 @@ int main()
 	glDeleteBuffers(1, &tVBO);
 
 	// Get uniform locations
-	std::vector<int> uniformLocations;
-	uniformLocations.push_back(shader.getUniformLocation("model"));
-	uniformLocations.push_back(shader.getUniformLocation("projection"));
-	uniformLocations.push_back(shader.getUniformLocation("view"));
-	uniformLocations.push_back(shader.getUniformLocation("tex"));
+	std::vector<std::string> uniforms
+	{
+		"model",
+		"projection",
+		"view",
+		"tex"
+	};
 
 	shader.use();
-	shader.setInt(uniformLocations[TEX], 0);
+	shader.findUniformLocations(uniforms);
+	shader.setInt(TEX, 0);
 
 	// Render loop
-	while(!glfwWindowShouldClose(window))
+	while(display.isOpen())
 	{
 		// Delta time calculation
-		double currentFrame = glfwGetTime();
-		deltaTime = currentFrame - lastFrame;
-		lastFrame = currentFrame;
+		display.calcDelta(glfwGetTime());
 
-		glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		// Clearing the window
+		display.clear();
 
-		cam.processCamMovement(window, deltaTime);
+		cam.processCamMovement(display.window, display.deltaTime);
 
 		// Setting up matrices
 		glm::mat4 model(1.0);
 		model = glm::rotate(model, (float)glfwGetTime() / 2.0f, { 0.0f, 1.0f, 0.0f });
-		shader.setMat4(uniformLocations[MODEL], model);
-		shader.setMat4(uniformLocations[PROJECTION], cam.projMatrix);
-		shader.setMat4(uniformLocations[VIEW], cam.viewMatrix);
+		shader.setMat4(MODEL, model);
+		shader.setMat4(PROJECTION, cam.projMatrix);
+		shader.setMat4(VIEW, cam.viewMatrix);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
@@ -280,8 +243,7 @@ int main()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+		display.update();
 	}
 
 	glfwTerminate();
