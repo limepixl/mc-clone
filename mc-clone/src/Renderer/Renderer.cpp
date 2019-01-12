@@ -134,7 +134,7 @@ void Renderer::render()
 		model = glm::rotate(model, glm::radians(entity.rotation.z), { 0.0f, 0.0f, 1.0f });
 
 		m_shader.setMat4(MODEL, model);
-		m_shader.setMat4(VIEW, m_cam->viewMatrix);
+		m_shader.setMat4(VIEW, m_cam->getViewMatrix());
 		
 		m_block.bind();
 		glDrawElements(GL_TRIANGLES, m_block.vertexCount, GL_UNSIGNED_INT, 0);
