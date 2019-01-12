@@ -52,6 +52,18 @@ void Shader::use()
 	glUseProgram(ID);
 }
 
+void Shader::findUniformLocations(const std::vector<std::string>& locations)
+{
+	// Store the uniform order
+	//m_uniforms = locations;
+
+	// Find all uniform locations
+	for(auto& loc : locations)
+	{
+		m_uniformLocations.push_back(glGetUniformLocation(ID, loc.c_str()));
+	}
+}
+
 void Shader::setInt(int index, int value)
 {
 	glUniform1i(m_uniformLocations[index], value);
