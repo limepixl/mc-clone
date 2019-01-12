@@ -2,9 +2,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "../Camera/Camera.h"
 
-Display::Display(unsigned int windowWidth, unsigned int windowHeight)
-	: m_width(windowWidth), m_height(windowHeight)
+Display::Display(int windowWidth, int windowHeight)
+	: width(windowWidth), height(windowHeight)
 {
 	// GLFW init	
 	glfwInit();
@@ -14,7 +15,7 @@ Display::Display(unsigned int windowWidth, unsigned int windowHeight)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Window and context creation
-	window = glfwCreateWindow(m_width, m_height, "Window Title", nullptr, nullptr);
+	window = glfwCreateWindow(width, height, "Window Title", nullptr, nullptr);
 	if(window == nullptr)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -33,6 +34,8 @@ Display::Display(unsigned int windowWidth, unsigned int windowHeight)
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Display::clear()

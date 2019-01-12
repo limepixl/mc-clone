@@ -15,9 +15,31 @@ public:
 
 	float speed;
 
-	Camera(int windowWidth, int windowHeight);
+private:
+	// Variables needed for mouse movement calculation
+	bool firstMouse;								  
+													  
+	double yaw;										  
+	double pitch;									  
+													  
+	double lastX;									  
+	double lastY;									  
+													  
+	float mouseSens;	
+
+	class Display* m_display;
+
+public:
+	Camera(class Display* display);
+
+	glm::mat4 getViewMatrix();
+
+	// Camera keyboard movement
+	void processCamMovement();
+	
+	// Camera mouse movement
+	void processCamMouse();
 
 	void updateVectors();
-
-	void processCamMovement(GLFWwindow* window, double deltaTime);
 };
+

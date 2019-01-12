@@ -8,12 +8,11 @@ public:
 	double deltaTime = 0.0;
 	double lastFrame = 0.0;
 
-private:
-	int m_width;
-	int m_height; 
+	int width;
+	int height; 
 
 public:
-	Display(unsigned int windowWidth, unsigned int windowHeight);
+	Display(int windowWidth, int windowHeight);
 
 	// Calculates the delta time between frames
 	void calcDelta(double currentTime);
