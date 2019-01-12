@@ -5,9 +5,6 @@
 #include <iostream>
 #include <vector>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "RM/stb_image.h"
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -134,34 +131,10 @@ int main()
 		352, 480
 	};
 
-	// Texture creation
-	unsigned int texture;
-	glGenTextures(1, &texture);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	// Image loading
-	int x, y, channels;
-	stbi_set_flip_vertically_on_load(true);
-	unsigned char* data = stbi_load("C:/dev/GitHub/mc-clone/mc-clone/res/images/minecraft.png", &x, &y, &channels, 4);
-	if(data == nullptr)
-	{
-		std::cout << "Failed to load image!\n";
-	}
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	stbi_image_free(data);
+	Texture textureAtlas = RM::loadTexture("C:/dev/GitHub/mc-clone/mc-clone/res/images/minecraft.png");
 
 	// Get normalized texture coordinates
-	std::vector<float> texPositions = normalizeTexCoordinates(texPositionsInteger, x, y);
+	std::vector<float> texPositions = normalizeTexCoordinates(texPositionsInteger, textureAtlas.width, textureAtlas.height);
 
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
@@ -229,8 +202,7 @@ int main()
 		shader.setMat4(PROJECTION, cam.projMatrix);
 		shader.setMat4(VIEW, cam.viewMatrix);
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture);
+		textureAtlas.bind();
 
 		glBindVertexArray(VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -240,8 +212,7 @@ int main()
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		textureAtlas.unbind();
 
 		display.update();
 	}

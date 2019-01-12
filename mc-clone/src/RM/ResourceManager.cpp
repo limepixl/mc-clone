@@ -2,26 +2,51 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <iostream>
 
-Shader RM::loadShader(const char* vertexPath, const char* fragmentPath)
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+namespace RM
 {
-	std::ifstream vRaw, fRaw;
-	vRaw.open(vertexPath);
-	fRaw.open(fragmentPath);
+	int numTexturesLoaded = 0;
 
-	std::stringstream vStream, fStream;
-	vStream << vRaw.rdbuf();
-	fStream << fRaw.rdbuf();
+	Shader loadShader(const char* vertexPath, const char* fragmentPath)
+	{
+		std::ifstream vRaw, fRaw;
+		vRaw.open(vertexPath);
+		fRaw.open(fragmentPath);
 
-	vRaw.close();
-	fRaw.close();
+		std::stringstream vStream, fStream;
+		vStream << vRaw.rdbuf();
+		fStream << fRaw.rdbuf();
 
-	std::string vString, fString;
-	vString = vStream.str();
-	fString = fStream.str();
+		vRaw.close();
+		fRaw.close();
 
-	const char* vSource = vString.c_str();
-	const char* fSource = fString.c_str();
+		std::string vString, fString;
+		vString = vStream.str();
+		fString = fStream.str();
 
-	return Shader(vSource, fSource);
+		const char* vSource = vString.c_str();
+		const char* fSource = fString.c_str();
+
+		return Shader(vSource, fSource);
+	}
+
+	Texture loadTexture(const char * location)
+	{
+		// Image loading
+		int x, y, channels;
+		stbi_set_flip_vertically_on_load(true);
+		unsigned char* data = stbi_load("C:/dev/GitHub/mc-clone/mc-clone/res/images/minecraft.png", &x, &y, &channels, 4);
+		if(data == nullptr)
+		{
+			std::cout << "Failed to load image!\n";
+		}
+		Texture t(data, numTexturesLoaded++, x, y, channels);
+
+		stbi_image_free(data);
+		return t;
+	}
 }

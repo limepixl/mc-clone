@@ -73,8 +73,3 @@ void Shader::setMat4(int index, const glm::mat4 & value)
 {
 	glUniformMatrix4fv(m_uniformLocations[index], 1, GL_FALSE, glm::value_ptr(value));
 }
-
-int Shader::getUniformLocation(const char* location)
-{
-	return glGetUniformLocation(ID, location);
-}
