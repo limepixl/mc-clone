@@ -11,21 +11,6 @@
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
 
-// Translates full texture coordinates into coordinates in normalized space
-std::vector<float> normalizeTexCoordinates(std::vector<int>& texCoordinates, int imageWidth, int imageHeight)
-{
-	std::vector<float> normalized;
-	normalized.reserve(texCoordinates.size());
-
-	for(int i = 0; i <= texCoordinates.size() - 2; i += 2)
-	{
-		normalized.push_back(texCoordinates[i] / (float)imageWidth);
-		normalized.push_back(texCoordinates[i + 1] / (float)imageHeight);
-	}
-
-	return normalized;
-}
-
 int main()
 {
 	// Window creation
@@ -97,44 +82,41 @@ int main()
 		22, 23, 20
 	};
 
-	std::vector<int> texPositionsInteger
+	std::vector<float> texPositions
 	{
 		// Back
-		96, 480,
-		128, 480,
-		128, 512,
-		96, 512,
+		0.25f, 0.75f,
+		0.5f, 0.75f,
+		0.5f, 1.0f,
+	    0.25f, 1.0f,
 		// Front
-		96, 480,
-		128, 480,
-		128, 512,
-		96, 512,
+		0.25f, 0.75f,
+		0.5f, 0.75f,
+		0.5f, 1.0f,
+		0.25f, 1.0f,
 		// Right
-		96, 480,
-		128, 480,
-		128, 512,
-		96, 512,
+		0.25f, 0.75f,
+		0.5f, 0.75f,
+		0.5f, 1.0f,
+		0.25f, 1.0f,
 		// Left
-		96, 480,
-		128, 480,
-		128, 512,
-		96, 512,
+		0.25f, 0.75f,
+		0.5f, 0.75f,
+		0.5f, 1.0f,
+		0.25f, 1.0f,
 		// Top
-		64, 480,
-		96, 480,
-		96, 512,
-		64, 512,
+		0.0f, 0.75f,
+		0.25f, 0.75f,
+		0.25f, 1.0f,
+		0.0f, 1.0f,
 		// Bottom
-		352, 448,
-		384, 448,
-		384, 480,
-		352, 480
+		0.5f, 0.75f,
+		0.75f, 0.75f,
+		0.75f, 1.0f,
+		0.5f, 1.0f,
 	};
 
-	Texture textureAtlas = RM::loadTexture("C:/dev/GitHub/mc-clone/mc-clone/res/images/minecraft.png");
-
-	// Get normalized texture coordinates
-	std::vector<float> texPositions = normalizeTexCoordinates(texPositionsInteger, textureAtlas.width, textureAtlas.height);
+	Texture textureAtlas = RM::loadTexture("C:/dev/GitHub/mc-clone/mc-clone/res/images/simple.png");
 
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);

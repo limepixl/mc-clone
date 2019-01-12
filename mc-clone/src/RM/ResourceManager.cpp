@@ -39,7 +39,7 @@ namespace RM
 		// Image loading
 		int x, y, channels;
 		stbi_set_flip_vertically_on_load(true);
-		unsigned char* data = stbi_load("C:/dev/GitHub/mc-clone/mc-clone/res/images/minecraft.png", &x, &y, &channels, 4);
+		unsigned char* data = stbi_load(location, &x, &y, &channels, 4);
 		if(data == nullptr)
 		{
 			std::cout << "Failed to load image!\n";
