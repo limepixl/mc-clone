@@ -52,6 +52,11 @@ void Shader::use()
 	glUseProgram(ID);
 }
 
+void Shader::stopUsing()
+{
+	glUseProgram(0);
+}
+
 void Shader::findUniformLocations(const std::vector<std::string>& locations)
 {
 	// Store the uniform order

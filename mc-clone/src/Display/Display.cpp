@@ -30,6 +30,9 @@ Display::Display(unsigned int windowWidth, unsigned int windowHeight)
 
 	glViewport(0, 0, windowWidth, windowHeight);
 	glEnable(GL_DEPTH_TEST);
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 }
 
 void Display::clear()

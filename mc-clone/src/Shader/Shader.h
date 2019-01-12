@@ -24,6 +24,7 @@ public:
 	~Shader();
 
 	void use();
+	void stopUsing();
 
 	void setInt(int index, int value);
 	void setMat4(int index, const glm::mat4& value);

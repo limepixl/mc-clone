@@ -8,7 +8,7 @@ Camera::Camera(int windowWidth, int windowHeight)
 	right = glm::vec3(1.0, 0.0, 0.0);
 	up = glm::vec3(0.0, 1.0, 0.0);
 
-	projMatrix = glm::perspective(glm::radians(45.0f), (float)windowWidth / windowHeight, 0.1f, 100.0f);
+	projMatrix = glm::perspective(glm::radians(50.0f), (float)windowWidth / windowHeight, 0.1f, 100.0f);
 }
 
 void Camera::updateVectors()
@@ -49,6 +49,7 @@ void Camera::processCamMovement(GLFWwindow* window, double deltaTime)
 	{
 		position -= speed * up;
 	}
+
 
 	updateVectors();
 }

@@ -132,6 +132,8 @@
     <ClCompile Include="glad\glad.c" />
     <ClCompile Include="src\Display\Display.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Mesh\Mesh.cpp" />
+    <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\RM\ResourceManager.cpp" />
     <ClCompile Include="src\Shader\Shader.cpp" />
     <ClCompile Include="src\Texture\Texture.cpp" />
@@ -139,6 +141,9 @@
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Display\Display.h" />
+    <ClInclude Include="src\Entity\Entity.h" />
+    <ClInclude Include="src\Mesh\Mesh.h" />
+    <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\RM\ResourceManager.h" />
     <ClInclude Include="src\Shader\Shader.h" />
     <ClInclude Include="src\RM\stb_image.h" />

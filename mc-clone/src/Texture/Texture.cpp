@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 
 Texture::Texture(unsigned char* data, unsigned int index, int width, int height, int channels)
-	: m_index(index), width(width), height(height), channels(channels)
+	: index(index), width(width), height(height), channels(channels)
 {
 	// Texture creation
 	glGenTextures(1, &ID);
@@ -20,7 +20,7 @@ Texture::Texture(unsigned char* data, unsigned int index, int width, int height,
 
 void Texture::bind()
 {
-	glActiveTexture(GL_TEXTURE0 + m_index);
+	glActiveTexture(GL_TEXTURE0 + index);
 	glBindTexture(GL_TEXTURE_2D, ID);
 }
 
