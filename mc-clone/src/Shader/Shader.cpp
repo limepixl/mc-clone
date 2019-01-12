@@ -66,15 +66,3 @@ int Shader::getUniformLocation(const char* location)
 {
 	return glGetUniformLocation(ID, location);
 }
-
-void Shader::findUniformLocations(const std::vector<std::string>& locations)
-{
-	// Store the uniform order
-	//m_uniforms = locations;
-
-	// Find all uniform locations
-	for(auto& loc : locations)
-	{
-		m_uniformLocations.push_back(glGetUniformLocation(ID, loc.c_str()));
-	}
-}
