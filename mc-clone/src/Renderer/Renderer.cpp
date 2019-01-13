@@ -1,4 +1,5 @@
 #include "Renderer.hpp"
+#include "../Utils/Utils.h"
 #include <glm/gtc/matrix_transform.hpp>
 
 // Uniform location order
@@ -73,40 +74,7 @@ Renderer::Renderer(Camera* cam)
 		22, 23, 20
 	};
 
-	// TODO :: Change based on block type
-	std::vector<float> texPositions
-	{
-		// Back
-		0.25f, 0.75f,
-		0.5f, 0.75f,
-		0.5f, 1.0f,
-		0.25f, 1.0f,
-		// Front
-		0.25f, 0.75f,
-		0.5f, 0.75f,
-		0.5f, 1.0f,
-		0.25f, 1.0f,
-		// Right
-		0.25f, 0.75f,
-		0.5f, 0.75f,
-		0.5f, 1.0f,
-		0.25f, 1.0f,
-		// Left
-		0.25f, 0.75f,
-		0.5f, 0.75f,
-		0.5f, 1.0f,
-		0.25f, 1.0f,
-		// Top
-		0.0f, 0.75f,
-		0.25f, 0.75f,
-		0.25f, 1.0f,
-		0.0f, 1.0f,
-		// Bottom
-		0.5f, 0.75f,
-		0.75f, 0.75f,
-		0.75f, 1.0f,
-		0.5f, 1.0f,
-	};
+	std::vector<float> texPositions = Utils::getTexPositions(GRASS);
 
 	m_block = Mesh(vertexPositions, indices, texPositions);
 
@@ -128,10 +96,6 @@ void Renderer::render()
 	{
 		glm::mat4 model(1.0f);
 		model = glm::translate(model, entity.position);
-
-		model = glm::rotate(model, glm::radians(entity.rotation.x), { 1.0f, 0.0f, 0.0f });
-		model = glm::rotate(model, glm::radians(entity.rotation.y), { 0.0f, 1.0f, 0.0f });
-		model = glm::rotate(model, glm::radians(entity.rotation.z), { 0.0f, 0.0f, 1.0f });
 
 		m_shader.setMat4(MODEL, model);
 		m_shader.setMat4(VIEW, m_cam->getViewMatrix());

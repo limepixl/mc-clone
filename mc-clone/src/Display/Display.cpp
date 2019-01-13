@@ -34,13 +34,15 @@ Display::Display(int windowWidth, int windowHeight)
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+	glCullFace(GL_LEFT);
+	glCullFace(GL_RIGHT);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Display::clear()
 {
-	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.3f, 0.3f, 0.6f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

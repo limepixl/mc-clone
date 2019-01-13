@@ -137,6 +137,7 @@
     <ClCompile Include="src\RM\ResourceManager.cpp" />
     <ClCompile Include="src\Shader\Shader.cpp" />
     <ClCompile Include="src\Texture\Texture.cpp" />
+    <ClCompile Include="src\Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.hpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="src\Shader\Shader.hpp" />
     <ClInclude Include="src\RM\stb_image.h" />
     <ClInclude Include="src\Texture\Texture.hpp" />
+    <ClInclude Include="src\Utils\Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\fragment.glsl" />

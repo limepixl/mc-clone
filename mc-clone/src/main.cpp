@@ -5,7 +5,7 @@
 int main()
 {
 	// Display creation
-	Display display(1920, 1080);
+	Display display(1280, 720);
 
 	Camera cam(&display);
 
@@ -14,7 +14,7 @@ int main()
 	for(int i = 0; i < 100; i++)
 	for(int j = 0; j < 100; j++)
 	{
-		renderer.add({ { -(float)i, -0.5f, -(float)j }, { 0.0f, 0.0f, 0.0f } });
+		renderer.add({ { -(float)i, -0.5f, -(float)j }});
 	}
 
 	// Render loop

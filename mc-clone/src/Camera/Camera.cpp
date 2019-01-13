@@ -30,7 +30,7 @@ glm::mat4 Camera::getViewMatrix()
 
 void Camera::processCamMovement()
 {
-	speed = 6.0f * (float)m_display->deltaTime;
+	speed = 10.0f * (float)m_display->deltaTime;
 
 	if(glfwGetKey(m_display->window, GLFW_KEY_W) == GLFW_PRESS)
 	{
@@ -54,12 +54,12 @@ void Camera::processCamMovement()
 
 	if(glfwGetKey(m_display->window, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
-		position += speed * up;
+		position += speed * glm::vec3(0.0f, 1.0f, 0.0f);
 	}
 
 	if(glfwGetKey(m_display->window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
-		position -= speed * up;
+		position -= speed * glm::vec3(0.0f, 1.0f, 0.0f);
 	}
 }
 
