@@ -139,15 +139,15 @@
     <ClCompile Include="src\Texture\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Camera\Camera.h" />
-    <ClInclude Include="src\Display\Display.h" />
-    <ClInclude Include="src\Entity\Entity.h" />
-    <ClInclude Include="src\Mesh\Mesh.h" />
-    <ClInclude Include="src\Renderer\Renderer.h" />
-    <ClInclude Include="src\RM\ResourceManager.h" />
-    <ClInclude Include="src\Shader\Shader.h" />
+    <ClInclude Include="src\Camera\Camera.hpp" />
+    <ClInclude Include="src\Display\Display.hpp" />
+    <ClInclude Include="src\Entity\Entity.hpp" />
+    <ClInclude Include="src\Mesh\Mesh.hpp" />
+    <ClInclude Include="src\Renderer\Renderer.hpp" />
+    <ClInclude Include="src\RM\ResourceManager.hpp" />
+    <ClInclude Include="src\Shader\Shader.hpp" />
     <ClInclude Include="src\RM\stb_image.h" />
-    <ClInclude Include="src\Texture\Texture.h" />
+    <ClInclude Include="src\Texture\Texture.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\fragment.glsl" />

@@ -1,8 +1,8 @@
-#include "Display.h"
+#include "Display.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "../Camera/Camera.h"
+#include "../Camera/Camera.hpp"
 
 Display::Display(int windowWidth, int windowHeight)
 	: width(windowWidth), height(windowHeight)

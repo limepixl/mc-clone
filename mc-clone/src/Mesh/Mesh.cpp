@@ -1,4 +1,4 @@
-#include "Mesh.h"
+#include "Mesh.hpp"
 #include <glad/glad.h>
 
 Mesh::Mesh(const std::vector<float>& vertexPositions, const std::vector<unsigned int>& indices, const std::vector<float>& texPositions)

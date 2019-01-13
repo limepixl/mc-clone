@@ -1,6 +1,6 @@
 #pragma once
-#include "../Shader/Shader.h"
-#include "../Texture/Texture.h"
+#include "../Shader/Shader.hpp"
+#include "../Texture/Texture.hpp"
 
 namespace RM
 {

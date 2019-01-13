@@ -1,4 +1,4 @@
-#include "Texture.h"
+#include "Texture.hpp"
 #include <glad/glad.h>
 
 Texture::Texture(unsigned char* data, unsigned int index, int width, int height, int channels)

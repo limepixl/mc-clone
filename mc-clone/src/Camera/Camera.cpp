@@ -1,5 +1,5 @@
-#include "Camera.h"
-#include "../Display/Display.h"
+#include "Camera.hpp"
+#include "../Display/Display.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 
 Camera::Camera(Display* display)

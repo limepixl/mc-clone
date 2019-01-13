@@ -1,12 +1,11 @@
 #include <glad/glad.h>
-#include "Camera/Camera.h"
-#include "Display/Display.h"
-#include "Renderer/Renderer.h"
+#include "Display/Display.hpp"
+#include "Renderer/Renderer.hpp"
 
 int main()
 {
 	// Display creation
-	Display display(1280, 720);
+	Display display(1920, 1080);
 
 	Camera cam(&display);
 
