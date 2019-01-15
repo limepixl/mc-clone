@@ -1,6 +1,6 @@
-#include "Utils.h"
+#include "Utils.hpp"
 
-std::vector<float> Utils::getTexPositions(BlockType type)
+std::vector<float> Utils::getTexPositionsCube(BlockType type)
 {
 	switch(type)
 	{
@@ -74,74 +74,53 @@ std::vector<float> Utils::getTexPositions(BlockType type)
 			0.75f, 1.0f
 		};
 
-	case 2:
-		return std::vector<float>
-		{
-			// Back
-			0.0f, 0.25f,
-			0.25f, 0.25f,
-			0.25f, 0.5f,
-			0.0f, 0.5f,
-			// Front
-			0.0f, 0.25f,
-			0.25f, 0.25f,
-			0.25f, 0.5f,
-			0.0f, 0.5f,
-			// Right
-			0.0f, 0.25f,
-			0.25f, 0.25f,
-			0.25f, 0.5f,
-			0.0f, 0.5f,
-			// Left
-			0.0f, 0.25f,
-			0.25f, 0.25f,
-			0.25f, 0.5f,
-			0.0f, 0.5f,
-			// Top
-			0.0f, 0.25f,
-			0.25f, 0.25f,
-			0.25f, 0.5f,
-			0.0f, 0.5f,
-			// Bottom
-			0.0f, 0.25f,
-			0.25f, 0.25f,
-			0.25f, 0.5f,
-			0.0f, 0.5f
-		};
+	default:
+		return std::vector<float>();
+		break;
+	}
+}
 
-	case 3:
+std::vector<float> Utils::getTexPositionsFace(BlockType type, Side side)
+{
+	switch(type)
+	{
+	case 0:
+		if(side == Top)
+		{
+			return std::vector<float>
+			{
+				0.0f, 0.75f,
+				0.25f, 0.75f,
+				0.25f, 1.0f,
+				0.0f, 1.0f
+			};
+		} else if(side == Bottom)
+		{
+			return std::vector<float>
+			{
+				0.5f, 0.75f,
+				0.75f, 0.75f,
+				0.75f, 1.0f,
+				0.5f, 1.0f
+			};
+		} else
+		{
+			return std::vector<float>
+			{
+				0.25f, 0.75f,
+				0.5f, 0.75f,
+				0.5f, 1.0f,
+				0.25f, 1.0f
+			};
+		}
+
+	case 1:
 		return std::vector<float>
 		{
-			// Back
-			0.0f, 0.5f,
-			0.25f, 0.5f,
-			0.25f, 0.75f,
-			0.0f, 0.75f,
-			// Front
-			0.0f, 0.5f,
-			0.25f, 0.5f,
-			0.25f, 0.75f,
-			0.0f, 0.75f,
-			// Right
-			0.0f, 0.5f,
-			0.25f, 0.5f,
-			0.25f, 0.75f,
-			0.0f, 0.75f,
-			// Left
-			0.0f, 0.5f,
-			0.25f, 0.5f,
-			0.25f, 0.75f,
-			0.0f, 0.75f,
-			// Top
-			0.0f, 0.5f,
-			0.25f, 0.5f,
-			0.25f, 0.75f,
-			0.0f, 0.75f,
-			// Bottom
-			0.0f, 0.5f,
-			0.25f, 0.5f,
-			0.25f, 0.75f,
-			0.0f, 0.75f
+			0.75f, 0.75f,
+			1.0f, 0.75f,
+			1.0f, 1.0f,
+			0.75f, 1.0f
 		};
 
 	default:
