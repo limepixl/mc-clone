@@ -40,6 +40,13 @@ Shader::Shader(const char* vSource, const char* fSource)
 
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
+
+	m_uniforms = {
+		"model",
+		"projection",
+		"view",
+		"tex"
+	};
 }
 
 Shader::~Shader()
@@ -57,15 +64,12 @@ void Shader::stopUsing()
 	glUseProgram(0);
 }
 
-void Shader::findUniformLocations(const std::vector<std::string>& locations)
+void Shader::findUniformLocations()
 {
-	// Store the uniform order
-	//m_uniforms = locations;
-
 	// Find all uniform locations
-	for(auto& loc : locations)
+	for(auto& uni : m_uniforms)
 	{
-		m_uniformLocations.push_back(glGetUniformLocation(ID, loc.c_str()));
+		m_uniformLocations.push_back(glGetUniformLocation(ID, uni.c_str()));
 	}
 }
 

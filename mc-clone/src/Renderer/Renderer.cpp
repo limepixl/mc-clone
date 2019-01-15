@@ -1,15 +1,6 @@
 #include "Renderer.hpp"
-#include "../Utils/Utils.h"
+#include "../Utils/Utils.hpp"
 #include <glm/gtc/matrix_transform.hpp>
-
-// Uniform location order
-std::vector<std::string> uniforms
-{
-	"model",
-	"projection",
-	"view",
-	"tex"
-};
 
 Renderer::Renderer(Camera* cam)
 	: m_cam(cam)
@@ -74,12 +65,12 @@ Renderer::Renderer(Camera* cam)
 		22, 23, 20
 	};
 
-	std::vector<float> texPositions = Utils::getTexPositions(GRASS);
+	std::vector<float> texPositions = Utils::getTexPositionsCube(GRASS);
 
 	m_block = Mesh(vertexPositions, indices, texPositions);
 
 	m_shader.use();
-	m_shader.findUniformLocations(uniforms);
+	m_shader.findUniformLocations();
 	m_shader.stopUsing();
 }
 

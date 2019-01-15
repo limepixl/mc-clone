@@ -15,7 +15,7 @@ class Shader
 {
 private:
 	std::vector<int> m_uniformLocations;
-	//std::vector<std::string> m_uniforms;
+	std::vector<std::string> m_uniforms;
 public:
 	unsigned int ID;
 
@@ -29,5 +29,5 @@ public:
 	void setInt(int index, int value);
 	void setMat4(int index, const glm::mat4& value);
 
-	void findUniformLocations(const std::vector<std::string>& locations);
+	void findUniformLocations();
 };
