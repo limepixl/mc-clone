@@ -42,6 +42,40 @@ std::vector<float> Utils::getTexPositionsCube(BlockType type)
 	case 1:
 		return std::vector<float>
 		{
+			0.5f, 0.75f,
+			0.75f, 0.75f,
+			0.75f, 1.0f,
+			0.5f, 1.0f,
+
+			0.5f, 0.75f,
+			0.75f, 0.75f,
+			0.75f, 1.0f,
+			0.5f, 1.0f,
+
+			0.5f, 0.75f,
+			0.75f, 0.75f,
+			0.75f, 1.0f,
+			0.5f, 1.0f,
+
+			0.5f, 0.75f,
+			0.75f, 0.75f,
+			0.75f, 1.0f,
+			0.5f, 1.0f,
+
+			0.5f, 0.75f,
+			0.75f, 0.75f,
+			0.75f, 1.0f,
+			0.5f, 1.0f,
+
+			0.5f, 0.75f,
+			0.75f, 0.75f,
+			0.75f, 1.0f,
+			0.5f, 1.0f
+		};
+
+	case 2:
+		return std::vector<float>
+		{
 			// Back
 			0.75f, 0.75f,
 			1.0f, 0.75f,
@@ -76,11 +110,10 @@ std::vector<float> Utils::getTexPositionsCube(BlockType type)
 
 	default:
 		return std::vector<float>();
-		break;
 	}
 }
 
-std::vector<float> Utils::getTexPositionsFace(BlockType type, Side side)
+std::vector<float> Utils::getTexPosFace(BlockType type, Side side)
 {
 	switch(type)
 	{
@@ -117,14 +150,25 @@ std::vector<float> Utils::getTexPositionsFace(BlockType type, Side side)
 	case 1:
 		return std::vector<float>
 		{
+			0.5f, 0.75f,
+			0.75f, 0.75f,
+			0.75f, 1.0f,
+			0.5f, 1.0f
+		};
+
+	case 2:
+		return std::vector<float>
+		{
 			0.75f, 0.75f,
 			1.0f, 0.75f,
 			1.0f, 1.0f,
 			0.75f, 1.0f
 		};
 
+	case 3:
+		return std::vector<float>();
+
 	default:
 		return std::vector<float>();
-		break;
 	}
 }

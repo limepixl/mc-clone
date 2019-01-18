@@ -4,7 +4,9 @@
 enum BlockType
 {
 	GRASS,
+	DIRT,
 	STONE,
+	AIR
 };
 
 enum Side
@@ -15,15 +17,11 @@ enum Side
 	Left,
 	Top,
 	Bottom,
-	FL,
-	FR,
-	BL,
-	BR,
 };
 
 namespace Utils
 {
 	std::vector<float> getTexPositionsCube(BlockType type);
 
-	std::vector<float> getTexPositionsFace(BlockType type, Side side);
+	std::vector<float> getTexPosFace(BlockType type, Side side);
 }
