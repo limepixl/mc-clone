@@ -15,7 +15,7 @@ Display::Display(int windowWidth, int windowHeight)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Window and context creation
-	window = glfwCreateWindow(width, height, "Window?", nullptr, nullptr);
+	window = glfwCreateWindow(width, height, "Window title", nullptr, nullptr);
 	if(window == nullptr)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -32,10 +32,8 @@ Display::Display(int windowWidth, int windowHeight)
 	glViewport(0, 0, windowWidth, windowHeight);
 	glEnable(GL_DEPTH_TEST);
 
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
-	//glCullFace(GL_LEFT);
-	//glCullFace(GL_RIGHT);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }

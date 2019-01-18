@@ -130,9 +130,11 @@
   <ItemGroup>
     <ClCompile Include="src\Camera\Camera.cpp" />
     <ClCompile Include="glad\glad.c" />
+    <ClCompile Include="src\Chunk\ChunkGenerator.cpp" />
     <ClCompile Include="src\Display\Display.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Mesh\Mesh.cpp" />
+    <ClCompile Include="src\Renderer\ChunkRenderer.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\RM\ResourceManager.cpp" />
     <ClCompile Include="src\Shader\Shader.cpp" />
@@ -141,15 +143,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.hpp" />
+    <ClInclude Include="src\Chunk\ChunkGenerator.hpp" />
     <ClInclude Include="src\Display\Display.hpp" />
     <ClInclude Include="src\Entity\Entity.hpp" />
     <ClInclude Include="src\Mesh\Mesh.hpp" />
+    <ClInclude Include="src\Renderer\ChunkRenderer.hpp" />
     <ClInclude Include="src\Renderer\Renderer.hpp" />
     <ClInclude Include="src\RM\ResourceManager.hpp" />
     <ClInclude Include="src\Shader\Shader.hpp" />
     <ClInclude Include="src\RM\stb_image.h" />
     <ClInclude Include="src\Texture\Texture.hpp" />
-    <ClInclude Include="src\Utils\Utils.h" />
+    <ClInclude Include="src\Utils\Utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\fragment.glsl" />
