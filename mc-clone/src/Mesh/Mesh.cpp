@@ -34,8 +34,6 @@ Mesh::Mesh(const std::vector<float>& vertexPositions, const std::vector<unsigned
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &tVBO);
 }
 
 void Mesh::bind()
