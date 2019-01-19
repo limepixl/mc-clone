@@ -5,7 +5,7 @@
 Camera::Camera(Display* display)
 	: m_display(display)
 {
-	projMatrix = glm::perspective(glm::radians(50.0f), (float)display->width / display->height, 0.1f, 300.0f);
+	projMatrix = glm::perspective(glm::radians(50.0f), (float)display->width / display->height, 0.1f, 1000.0f);
 
 	position = glm::vec3(0.0);
 	front = glm::vec3(0.0, 0.0, -1.0);

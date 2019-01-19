@@ -12,11 +12,11 @@ int main()
 
 	ChunkRenderer renderer(&cam);
 
-	for(int i = 0; i < 5*16; i += 16)
-		for(int j = 0; j < 5*16; j += 16)
-			renderer.add({ {i, 0.0f, j} });
+	//for(int i = 0; i < 10 * 16; i += 16)
+	//	for(int j = 0; j < 10 * 16; j += 16)
+	//		renderer.add({ {i, 0.0f, j} });
 
-	//renderer.add({ { 0.0f, 0.0f, 0.0f } });
+	renderer.add({ {0.0f, 0.0f, 0.0f} });
 
 	// Render loop
 	while(display.isOpen())

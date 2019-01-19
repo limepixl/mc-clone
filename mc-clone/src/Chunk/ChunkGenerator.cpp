@@ -10,12 +10,14 @@ void ChunkGenerator::generate()
 	for(int i = 0; i < CHUNK_DIMENSION; i++)
 	for(int j = 0; j < CHUNK_DIMENSION; j++)
 	{
-		if(k < m_height - 3)
-			blocks.push_back(STONE);
-		else if(k < m_height - 1)
-			blocks.push_back(DIRT);
-		else
-			blocks.push_back(GRASS);
+		//if(k < m_height - 3)
+		//	blocks.push_back(STONE);
+		//else if(k < m_height - 1)
+		//	blocks.push_back(DIRT);
+		//else
+		//	blocks.push_back(GRASS);
+
+		blocks.push_back(BlockType(rand() % 4));
 	}
 }
 
@@ -80,15 +82,20 @@ Mesh ChunkGenerator::makeMesh()
 	unsigned int index = 0;
 
 	// Generate all the faces
+	for(int k = 0; k < m_height; k++)
 	for(int i = 0; i < CHUNK_DIMENSION; i++)
 	for(int j = 0; j < CHUNK_DIMENSION; j++)
-	for(int k = 0; k < m_height; k++)
 	{
 		int currentPos3D = i + j * CHUNK_DIMENSION + k * CHUNK_AREA;
 		int currentPos2D = currentPos3D - CHUNK_AREA * k;
 
+		if(blocks[currentPos3D] == AIR)
+		{
+			continue;
+		}
+
 		// Left face
-		if(currentPos2D % CHUNK_DIMENSION == 0)
+		if(currentPos2D % CHUNK_DIMENSION == 0 || blocks[currentPos3D - 1] == AIR)
 		{
 			std::vector<float> currentVPositions = leftFace;
 			currentVPositions[0] += i;	   currentVPositions[1] += k;		currentVPositions[2] += j;
@@ -112,14 +119,14 @@ Mesh ChunkGenerator::makeMesh()
 		}
 
 		// Back face
-		if(currentPos2D < CHUNK_DIMENSION)
+		if(currentPos2D < CHUNK_DIMENSION || blocks[currentPos3D - CHUNK_DIMENSION] == AIR)
 		{
 			std::vector<float> currentVPositions = backFace;
 			currentVPositions[0] += i;	   currentVPositions[1] += k;		currentVPositions[2] += j;
 			currentVPositions[3] += i;	   currentVPositions[4] += k;		currentVPositions[5] += j;
 			currentVPositions[6] += i;	   currentVPositions[7] += k;		currentVPositions[8] += j;
 			currentVPositions[9] += i;	   currentVPositions[10] += k;		currentVPositions[11] += j;
-
+			
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 
 			std::vector<float> currentTexPositions = Utils::getTexPosFace(blocks[currentPos3D], Back);
@@ -136,7 +143,7 @@ Mesh ChunkGenerator::makeMesh()
 		}
 
 		// Right face
-		if((currentPos3D + 1) % CHUNK_DIMENSION == 0)
+		if((currentPos3D + 1) % CHUNK_DIMENSION == 0 || blocks[currentPos3D + 1] == AIR)
 		{
 			std::vector<float> currentVPositions = rightFace;
 			currentVPositions[0] += i;	   currentVPositions[1] += k;		currentVPositions[2] += j;
@@ -160,7 +167,7 @@ Mesh ChunkGenerator::makeMesh()
 		}
 
 		// Front face
-		if(j == CHUNK_DIMENSION - 1)
+		if(j == CHUNK_DIMENSION - 1 || blocks[currentPos3D + CHUNK_DIMENSION] == AIR)
 		{
 			std::vector<float> currentVPositions = frontFace;
 			currentVPositions[0] += i;	   currentVPositions[1] += k;		currentVPositions[2] += j;
@@ -184,7 +191,7 @@ Mesh ChunkGenerator::makeMesh()
 		}
 
 		// Top face
-		if(currentPos3D + CHUNK_AREA >= CHUNK_VOLUME)
+		if(currentPos3D + CHUNK_AREA >= CHUNK_VOLUME || blocks[currentPos3D + CHUNK_AREA] == AIR)
 		{
 			std::vector<float> currentVPositions = topFace;
 			currentVPositions[0] += i;	   currentVPositions[1] += k;		currentVPositions[2] += j;
@@ -208,7 +215,7 @@ Mesh ChunkGenerator::makeMesh()
 		}
 
 		// Bottom face
-		if(k == 0)
+		if(k == 0 || blocks[currentPos3D - CHUNK_AREA] == AIR)
 		{
 			std::vector<float> currentVPositions = bottomFace;
 			currentVPositions[0] += i;	  currentVPositions[1] += k;	currentVPositions[2] += j;
