@@ -17,7 +17,7 @@ void ChunkGenerator::generate()
 		//else
 		//	blocks.push_back(GRASS);
 
-		blocks.push_back(BlockType(rand() % 4));
+		blocks.push_back(BlockType(rand() % 9));
 	}
 }
 
@@ -98,10 +98,7 @@ Mesh ChunkGenerator::makeMesh()
 		if(currentPos2D % CHUNK_DIMENSION == 0 || blocks[currentPos3D - 1] == AIR)
 		{
 			std::vector<float> currentVPositions = leftFace;
-			currentVPositions[0] += i;	   currentVPositions[1] += k;		currentVPositions[2] += j;
-			currentVPositions[3] += i;	   currentVPositions[4] += k;		currentVPositions[5] += j;
-			currentVPositions[6] += i;	   currentVPositions[7] += k;		currentVPositions[8] += j;
-			currentVPositions[9] += i;	   currentVPositions[10] +=k;		currentVPositions[11] +=j;
+			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 
@@ -122,10 +119,7 @@ Mesh ChunkGenerator::makeMesh()
 		if(currentPos2D < CHUNK_DIMENSION || blocks[currentPos3D - CHUNK_DIMENSION] == AIR)
 		{
 			std::vector<float> currentVPositions = backFace;
-			currentVPositions[0] += i;	   currentVPositions[1] += k;		currentVPositions[2] += j;
-			currentVPositions[3] += i;	   currentVPositions[4] += k;		currentVPositions[5] += j;
-			currentVPositions[6] += i;	   currentVPositions[7] += k;		currentVPositions[8] += j;
-			currentVPositions[9] += i;	   currentVPositions[10] += k;		currentVPositions[11] += j;
+			translateVertices(currentVPositions, i, k, j);
 			
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 
@@ -146,10 +140,7 @@ Mesh ChunkGenerator::makeMesh()
 		if((currentPos3D + 1) % CHUNK_DIMENSION == 0 || blocks[currentPos3D + 1] == AIR)
 		{
 			std::vector<float> currentVPositions = rightFace;
-			currentVPositions[0] += i;	   currentVPositions[1] += k;		currentVPositions[2] += j;
-			currentVPositions[3] += i;	   currentVPositions[4] += k;		currentVPositions[5] += j;
-			currentVPositions[6] += i;	   currentVPositions[7] += k;		currentVPositions[8] += j;
-			currentVPositions[9] += i;	   currentVPositions[10] +=k;		currentVPositions[11] +=j;
+			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 			
@@ -170,10 +161,7 @@ Mesh ChunkGenerator::makeMesh()
 		if(j == CHUNK_DIMENSION - 1 || blocks[currentPos3D + CHUNK_DIMENSION] == AIR)
 		{
 			std::vector<float> currentVPositions = frontFace;
-			currentVPositions[0] += i;	   currentVPositions[1] += k;		currentVPositions[2] += j;
-			currentVPositions[3] += i;	   currentVPositions[4] += k;		currentVPositions[5] += j;
-			currentVPositions[6] += i;	   currentVPositions[7] += k;		currentVPositions[8] += j;
-			currentVPositions[9] += i;	   currentVPositions[10] +=k;		currentVPositions[11] +=j;
+			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 			
@@ -194,10 +182,7 @@ Mesh ChunkGenerator::makeMesh()
 		if(currentPos3D + CHUNK_AREA >= CHUNK_VOLUME || blocks[currentPos3D + CHUNK_AREA] == AIR)
 		{
 			std::vector<float> currentVPositions = topFace;
-			currentVPositions[0] += i;	   currentVPositions[1] += k;		currentVPositions[2] += j;
-			currentVPositions[3] += i;	   currentVPositions[4] += k;		currentVPositions[5] += j;
-			currentVPositions[6] += i;	   currentVPositions[7] += k;		currentVPositions[8] += j;
-			currentVPositions[9] += i;	   currentVPositions[10] +=k;		currentVPositions[11] +=j;
+			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 			
@@ -218,10 +203,7 @@ Mesh ChunkGenerator::makeMesh()
 		if(k == 0 || blocks[currentPos3D - CHUNK_AREA] == AIR)
 		{
 			std::vector<float> currentVPositions = bottomFace;
-			currentVPositions[0] += i;	  currentVPositions[1] += k;	currentVPositions[2] += j;
-			currentVPositions[3] += i;	  currentVPositions[4] += k;	currentVPositions[5] += j;
-			currentVPositions[6] += i;	  currentVPositions[7] += k;	currentVPositions[8] += j;
-			currentVPositions[9] += i;	  currentVPositions[10] +=k;   currentVPositions[11] += j;
+			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 			
@@ -240,4 +222,18 @@ Mesh ChunkGenerator::makeMesh()
 	}
 
 	return Mesh(vertexPositions, indices, texPositions);
+}
+
+void ChunkGenerator::translateVertices(std::vector<float>& vertices, int x, int y, int z)
+{
+	for(int i = 0; i < 12; i++)
+	{
+		int coordinate = i % 3;
+		if(coordinate == 0)
+			vertices[i] += x;
+		else if(coordinate == 1)
+			vertices[i] += y;
+		else
+			vertices[i] += z;
+	}
 }

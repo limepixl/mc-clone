@@ -26,4 +26,7 @@ public:
 	
 	// Creates the chunk's mesh
 	Mesh makeMesh();
+
+private:
+	void translateVertices(std::vector<float>& vertices, int x, int y, int z);
 };
