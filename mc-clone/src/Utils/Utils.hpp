@@ -3,10 +3,15 @@
 
 enum BlockType
 {
+	AIR,
 	GRASS,
 	DIRT,
-	STONE,
-	AIR
+	STONE, 
+	BEDROCK,
+	IRON_BLOCK,
+	GOLD_BLOCK,
+	DIAMOND_BLOCK,
+	EMERALD_BLOCK
 };
 
 enum Side
