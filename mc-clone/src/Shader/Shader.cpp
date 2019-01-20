@@ -6,10 +6,12 @@
 
 Shader::Shader(const char* vSource, const char* fSource)
 {
+	// Compile vertex shader
 	unsigned int vertex = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertex, 1, &vSource, 0);
 	glCompileShader(vertex);
 
+	// Check compilation status
 	int compiled;
 	glGetShaderiv(vertex, GL_COMPILE_STATUS, &compiled);
 	if(compiled != GL_TRUE)
@@ -20,10 +22,12 @@ Shader::Shader(const char* vSource, const char* fSource)
 		std::cout << "Failed to compile vertex shader!\n" << message << "\n";
 	}
 
+	// Compile fragment shader
 	unsigned int fragment = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragment, 1, &fSource, 0);
 	glCompileShader(fragment);
 
+	// Check compilation status
 	glGetShaderiv(fragment, GL_COMPILE_STATUS, &compiled);
 	if(compiled != GL_TRUE)
 	{
@@ -33,14 +37,20 @@ Shader::Shader(const char* vSource, const char* fSource)
 		std::cout << "Failed to compile fragment shader!\n" << message << "\n";
 	}
 
-	ID = glCreateProgram();
-	glAttachShader(ID, vertex);
-	glAttachShader(ID, fragment);
-	glLinkProgram(ID);
+	// Create and link the program
+	m_ID = glCreateProgram();
+	glAttachShader(m_ID, vertex);
+	glAttachShader(m_ID, fragment);
+	glLinkProgram(m_ID);
+
+	// Clean up the remaining shaders
+	glDetachShader(m_ID, vertex);
+	glDetachShader(m_ID, fragment);
 
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
 
+	// The order of uniform names 
 	m_uniforms = {
 		"model",
 		"projection",
@@ -51,12 +61,12 @@ Shader::Shader(const char* vSource, const char* fSource)
 
 Shader::~Shader()
 {
-	glDeleteProgram(ID);
+	glDeleteProgram(m_ID);
 }
 
 void Shader::use()
 {
-	glUseProgram(ID);
+	glUseProgram(m_ID);
 }
 
 void Shader::stopUsing()
@@ -69,7 +79,7 @@ void Shader::findUniformLocations()
 	// Find all uniform locations
 	for(auto& uni : m_uniforms)
 	{
-		m_uniformLocations.push_back(glGetUniformLocation(ID, uni.c_str()));
+		m_uniformLocations.push_back(glGetUniformLocation(m_ID, uni.c_str()));
 	}
 }
 

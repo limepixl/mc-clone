@@ -4,6 +4,7 @@
 #include "../Entity/Entity.hpp"
 #include "../Mesh/Mesh.hpp"
 
+// Unused block renderer
 class Renderer
 {
 private:

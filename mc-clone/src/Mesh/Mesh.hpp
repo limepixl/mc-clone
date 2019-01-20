@@ -4,21 +4,24 @@
 class Mesh
 {
 public:
-	unsigned int VAO;
-	unsigned int EBO;
+	unsigned int VAO;	// Vertex array object
+	unsigned int EBO;	// Index/element buffer object
 
 	int vertexCount;
 
 private:
+	// All of the mesh's data: vertex positions,
+	// indices and texture coordinates
 	std::vector<float> m_vPos;
 	std::vector<unsigned int> m_indices;
 	std::vector<float> m_texPos;
 
 public:
-	Mesh() {};
+	Mesh() = default;
 
 	Mesh(const std::vector<float>& vertexPositions, const std::vector<unsigned int>& indices, const std::vector<float>& texPositions);
 
+	// Bind and unbind the VAO and EBO
 	void bind();
 	void unbind();
 };

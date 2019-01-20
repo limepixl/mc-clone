@@ -5,9 +5,9 @@
 class Chunk
 {
 public:
-	Mesh mesh;
+	Mesh mesh;	// All the combined block faces into a single mesh
 
-	std::vector<uint8_t> blocks;
+	std::vector<uint8_t> blocks;	// All blocks stored as uint8_t
 
 public:
 	Chunk() = default;

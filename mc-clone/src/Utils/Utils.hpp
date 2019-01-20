@@ -2,6 +2,8 @@
 #include <array>
 #include <vector>
 
+// Enum that stores values for all blocks possible
+// to get a texture for, from the atlas
 enum BlockType
 {
 	AIR,
@@ -15,6 +17,7 @@ enum BlockType
 	EMERALD_BLOCK
 };
 
+// Enum that stores all possible sides for each block
 enum Side
 {
 	Front,
@@ -27,5 +30,6 @@ enum Side
 
 namespace Utils
 {
+	// Return texture coordinates for a single side of a block type
 	std::array<float, 8> getTexPosFace(BlockType type, Side side);
 }

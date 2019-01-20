@@ -7,6 +7,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+// TODO: refactor resource manager fully
 namespace RM
 {
 	int numTexturesLoaded = 0;

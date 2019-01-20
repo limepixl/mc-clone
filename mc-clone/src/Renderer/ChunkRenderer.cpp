@@ -4,7 +4,7 @@
 ChunkRenderer::ChunkRenderer(Camera* cam)
 	: m_cam(cam)
 {
-	// Setup
+	// Setup of uniforms that need to be set once
 	m_shader.use();
 	m_shader.findUniformLocations();
 	m_shader.setInt(TEX, m_atlas.index);
@@ -17,17 +17,22 @@ void ChunkRenderer::render()
 	m_shader.use();
 	m_atlas.bind();
 
+	// Go through each chunk and translate it to the
+	// corresponding entity position
 	for(int i = 0; i < m_entities.size(); i++)
 	{
+		// The current chunk's mesh
+		auto& currentMesh = m_chunks[i].mesh;
+
 		glm::mat4 model(1.0f);
 		model = glm::translate(model, m_entities[i].position);
 
 		m_shader.setMat4(MODEL, model);
 		m_shader.setMat4(VIEW, m_cam->getViewMatrix());
 
-		m_chunks[i].mesh.bind();
-		glDrawElements(GL_TRIANGLES, m_chunks[i].mesh.vertexCount, GL_UNSIGNED_INT, 0);
-		m_chunks[i].mesh.unbind();
+		currentMesh.bind();
+		glDrawElements(GL_TRIANGLES, currentMesh.vertexCount, GL_UNSIGNED_INT, 0);
+		currentMesh.unbind();
 	}
 }
 
@@ -36,7 +41,7 @@ void ChunkRenderer::add(const Entity& entity)
 	m_entities.push_back(entity);
 }
 
-void ChunkRenderer::initialize()
+void ChunkRenderer::populate()
 {
 	for(auto& entity : m_entities)
 	{

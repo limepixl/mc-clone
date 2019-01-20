@@ -28,7 +28,7 @@ glm::mat4 Camera::getViewMatrix()
 	return viewMatrix;
 }
 
-void Camera::processCamMovement()
+void Camera::processCamKeyboard()
 {
 	speed = 10.0f * (float)m_display->deltaTime;
 

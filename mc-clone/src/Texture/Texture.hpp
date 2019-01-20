@@ -1,20 +1,24 @@
 #pragma once
 
+// Class that represents a texture object
 class Texture
 {
 public:
-	int width;
-	int height;
-	int channels;
-
+	// Index of image as a texture unit
 	unsigned int index;
 
 private:
-	unsigned int ID;
+	// Dimensions and format of image
+	int m_width;
+	int m_height;
+	int m_channels;
+
+	unsigned int m_ID;	// Texture object
 
 public:
 	Texture(unsigned char* data, unsigned int index, int width, int height, int channels);
 
+	// Bind or unbind texture
 	void bind();
 	void unbind();
 };
