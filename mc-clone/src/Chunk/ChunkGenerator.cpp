@@ -1,4 +1,5 @@
 #include "ChunkGenerator.hpp"
+#include "Chunk.hpp"
 
 ChunkGenerator::ChunkGenerator(int height)
 	: m_height(height)
@@ -6,22 +7,26 @@ ChunkGenerator::ChunkGenerator(int height)
 
 void ChunkGenerator::generate()
 {
-	for(int k = 0; k < m_height; k++)
-	for(int i = 0; i < CHUNK_DIMENSION; i++)
-	for(int j = 0; j < CHUNK_DIMENSION; j++)
+	// If there is a chunk already generated, delete its blocks
+	if(!blocks.empty())
 	{
-		//if(k < m_height - 3)
-		//	blocks.push_back(STONE);
-		//else if(k < m_height - 1)
-		//	blocks.push_back(DIRT);
-		//else
-		//	blocks.push_back(GRASS);
+		blocks.erase(blocks.begin(), blocks.end());
+	}
 
-		blocks.push_back(BlockType(rand() % 9));
+	for(int k = 0; k < m_height; k++)
+	for(int i = 0; i < chunk_dimension; i++)
+	for(int j = 0; j < chunk_dimension; j++)
+	{
+		if(k < m_height - 3)
+			blocks.push_back(STONE);
+		else if(k < m_height - 1)
+			blocks.push_back(DIRT);
+		else
+			blocks.push_back(GRASS);
 	}
 }
 
-Mesh ChunkGenerator::makeMesh()
+Chunk ChunkGenerator::makeChunk()
 {
 	// Generate the vector of blocks for checking
 	generate();
@@ -83,11 +88,11 @@ Mesh ChunkGenerator::makeMesh()
 
 	// Generate all the faces
 	for(int k = 0; k < m_height; k++)
-	for(int i = 0; i < CHUNK_DIMENSION; i++)
-	for(int j = 0; j < CHUNK_DIMENSION; j++)
+	for(int i = 0; i < chunk_dimension; i++)
+	for(int j = 0; j < chunk_dimension; j++)
 	{
-		int currentPos3D = i + j * CHUNK_DIMENSION + k * CHUNK_AREA;
-		int currentPos2D = currentPos3D - CHUNK_AREA * k;
+		int currentPos3D = i + j * chunk_dimension + k * chunk_area;
+		int currentPos2D = currentPos3D - chunk_area * k;
 
 		if(blocks[currentPos3D] == AIR)
 		{
@@ -95,14 +100,14 @@ Mesh ChunkGenerator::makeMesh()
 		}
 
 		// Left face
-		if(currentPos2D % CHUNK_DIMENSION == 0 || blocks[currentPos3D - 1] == AIR)
+		if(currentPos2D % chunk_dimension == 0 || blocks[currentPos3D - 1] == AIR)
 		{
 			std::vector<float> currentVPositions = leftFace;
 			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 
-			std::vector<float> currentTexPositions = Utils::getTexPosFace(blocks[currentPos3D], Left);
+			std::vector<float> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Left);
 			texPositions.insert(texPositions.end(), currentTexPositions.begin(), currentTexPositions.end());
 
 			std::vector<unsigned int> i
@@ -116,14 +121,14 @@ Mesh ChunkGenerator::makeMesh()
 		}
 
 		// Back face
-		if(currentPos2D < CHUNK_DIMENSION || blocks[currentPos3D - CHUNK_DIMENSION] == AIR)
+		if(currentPos2D < chunk_dimension || blocks[currentPos3D - chunk_dimension] == AIR)
 		{
 			std::vector<float> currentVPositions = backFace;
 			translateVertices(currentVPositions, i, k, j);
 			
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 
-			std::vector<float> currentTexPositions = Utils::getTexPosFace(blocks[currentPos3D], Back);
+			std::vector<float> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Back);
 			texPositions.insert(texPositions.end(), currentTexPositions.begin(), currentTexPositions.end());
 
 			std::vector<unsigned int> i
@@ -137,14 +142,14 @@ Mesh ChunkGenerator::makeMesh()
 		}
 
 		// Right face
-		if((currentPos3D + 1) % CHUNK_DIMENSION == 0 || blocks[currentPos3D + 1] == AIR)
+		if((currentPos3D + 1) % chunk_dimension == 0 || blocks[currentPos3D + 1] == AIR)
 		{
 			std::vector<float> currentVPositions = rightFace;
 			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 			
-			std::vector<float> currentTexPositions = Utils::getTexPosFace(blocks[currentPos3D], Right);
+			std::vector<float> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Right);
 			texPositions.insert(texPositions.end(), currentTexPositions.begin(), currentTexPositions.end());
 
 			std::vector<unsigned int> i
@@ -158,14 +163,14 @@ Mesh ChunkGenerator::makeMesh()
 		}
 
 		// Front face
-		if(j == CHUNK_DIMENSION - 1 || blocks[currentPos3D + CHUNK_DIMENSION] == AIR)
+		if(j == chunk_dimension - 1 || blocks[currentPos3D + chunk_dimension] == AIR)
 		{
 			std::vector<float> currentVPositions = frontFace;
 			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 			
-			std::vector<float> currentTexPositions = Utils::getTexPosFace(blocks[currentPos3D], Front);
+			std::vector<float> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Front);
 			texPositions.insert(texPositions.end(), currentTexPositions.begin(), currentTexPositions.end());
 
 			std::vector<unsigned int> i
@@ -179,14 +184,14 @@ Mesh ChunkGenerator::makeMesh()
 		}
 
 		// Top face
-		if(currentPos3D + CHUNK_AREA >= CHUNK_VOLUME || blocks[currentPos3D + CHUNK_AREA] == AIR)
+		if(currentPos3D + chunk_area >= chunk_volume || blocks[currentPos3D + chunk_area] == AIR)
 		{
 			std::vector<float> currentVPositions = topFace;
 			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 			
-			std::vector<float> currentTexPositions = Utils::getTexPosFace(blocks[currentPos3D], Top);
+			std::vector<float> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Top);
 			texPositions.insert(texPositions.end(), currentTexPositions.begin(), currentTexPositions.end());
 
 			std::vector<unsigned int> i
@@ -200,14 +205,14 @@ Mesh ChunkGenerator::makeMesh()
 		}
 
 		// Bottom face
-		if(k == 0 || blocks[currentPos3D - CHUNK_AREA] == AIR)
+		if(k == 0 || blocks[currentPos3D - chunk_area] == AIR)
 		{
 			std::vector<float> currentVPositions = bottomFace;
 			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 			
-			std::vector<float> currentTexPositions = Utils::getTexPosFace(blocks[currentPos3D], Bottom);
+			std::vector<float> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Bottom);
 			texPositions.insert(texPositions.end(), currentTexPositions.begin(), currentTexPositions.end());
 
 			std::vector<unsigned int> i
@@ -221,7 +226,10 @@ Mesh ChunkGenerator::makeMesh()
 		}
 	}
 
-	return Mesh(vertexPositions, indices, texPositions);
+	m_height = rand() % 5 + 11;
+	chunk_volume = chunk_area * m_height;
+
+	return Chunk({vertexPositions, indices, texPositions}, blocks);
 }
 
 void ChunkGenerator::translateVertices(std::vector<float>& vertices, int x, int y, int z)
