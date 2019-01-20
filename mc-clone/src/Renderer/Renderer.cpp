@@ -65,9 +65,9 @@ Renderer::Renderer(Camera* cam)
 		22, 23, 20
 	};
 
-	std::vector<float> texPositions = Utils::getTexPositionsCube(GRASS);
+	//std::vector<float> texPositions = Utils::getTexPositionsCube(GRASS);
 
-	m_block = Mesh(vertexPositions, indices, texPositions);
+//	m_block = Mesh(vertexPositions, indices, texPositions);
 
 	m_shader.use();
 	m_shader.findUniformLocations();

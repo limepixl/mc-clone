@@ -17,9 +17,9 @@ void ChunkGenerator::generate()
 	for(int i = 0; i < chunk_dimension; i++)
 	for(int j = 0; j < chunk_dimension; j++)
 	{
-		if(k < m_height - 3)
-			blocks.push_back(STONE);
-		else if(k < m_height - 1)
+		if(k == 0)
+			blocks.push_back(BEDROCK);
+		else if(k == 1 || k == 2)
 			blocks.push_back(DIRT);
 		else
 			blocks.push_back(GRASS);
@@ -36,7 +36,7 @@ Chunk ChunkGenerator::makeChunk()
 	std::vector<unsigned int> indices;
 	std::vector<float> texPositions;
 
-	std::vector<float> frontFace
+	std::array<float, 12> frontFace
 	{
 		0.0f, 0.0f, 1.0f,
 		1.0f, 0.0f, 1.0f,
@@ -44,7 +44,7 @@ Chunk ChunkGenerator::makeChunk()
 		0.0f, 1.0f, 1.0f
 	};
 
-	std::vector<float> backFace
+	std::array<float, 12> backFace
 	{
 		1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 0.0f,
@@ -52,7 +52,7 @@ Chunk ChunkGenerator::makeChunk()
 		1.0f, 1.0f, 0.0f
 	};
 
-	std::vector<float> leftFace
+	std::array<float, 12> leftFace
 	{
 		0.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f,
@@ -60,7 +60,7 @@ Chunk ChunkGenerator::makeChunk()
 		0.0f, 1.0f, 0.0f
 	};
 
-	std::vector<float> rightFace
+	std::array<float, 12> rightFace
 	{
 		1.0f, 0.0f, 1.0f,
 		1.0f, 0.0f, 0.0f,
@@ -68,7 +68,7 @@ Chunk ChunkGenerator::makeChunk()
 		1.0f, 1.0f, 1.0f
 	};
 
-	std::vector<float> topFace
+	std::array<float, 12> topFace
 	{
 		0.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 1.0f,
@@ -76,7 +76,7 @@ Chunk ChunkGenerator::makeChunk()
 		0.0f, 1.0f, 0.0f
 	};
 
-	std::vector<float> bottomFace
+	std::array<float, 12> bottomFace 
 	{
 		0.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
@@ -102,12 +102,12 @@ Chunk ChunkGenerator::makeChunk()
 		// Left face
 		if(currentPos2D % chunk_dimension == 0 || blocks[currentPos3D - 1] == AIR)
 		{
-			std::vector<float> currentVPositions = leftFace;
+			std::array<float, 12> currentVPositions = leftFace;
 			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 
-			std::vector<float> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Left);
+			std::array<float, 8> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Left);
 			texPositions.insert(texPositions.end(), currentTexPositions.begin(), currentTexPositions.end());
 
 			std::vector<unsigned int> i
@@ -123,12 +123,12 @@ Chunk ChunkGenerator::makeChunk()
 		// Back face
 		if(currentPos2D < chunk_dimension || blocks[currentPos3D - chunk_dimension] == AIR)
 		{
-			std::vector<float> currentVPositions = backFace;
+			std::array<float, 12> currentVPositions = backFace;
 			translateVertices(currentVPositions, i, k, j);
 			
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 
-			std::vector<float> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Back);
+			std::array<float, 8> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Back);
 			texPositions.insert(texPositions.end(), currentTexPositions.begin(), currentTexPositions.end());
 
 			std::vector<unsigned int> i
@@ -144,12 +144,12 @@ Chunk ChunkGenerator::makeChunk()
 		// Right face
 		if((currentPos3D + 1) % chunk_dimension == 0 || blocks[currentPos3D + 1] == AIR)
 		{
-			std::vector<float> currentVPositions = rightFace;
+			std::array<float, 12> currentVPositions = rightFace;
 			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 			
-			std::vector<float> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Right);
+			std::array<float, 8> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Right);
 			texPositions.insert(texPositions.end(), currentTexPositions.begin(), currentTexPositions.end());
 
 			std::vector<unsigned int> i
@@ -165,12 +165,12 @@ Chunk ChunkGenerator::makeChunk()
 		// Front face
 		if(j == chunk_dimension - 1 || blocks[currentPos3D + chunk_dimension] == AIR)
 		{
-			std::vector<float> currentVPositions = frontFace;
+			std::array<float, 12> currentVPositions = frontFace;
 			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 			
-			std::vector<float> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Front);
+			std::array<float, 8> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Front);
 			texPositions.insert(texPositions.end(), currentTexPositions.begin(), currentTexPositions.end());
 
 			std::vector<unsigned int> i
@@ -186,12 +186,12 @@ Chunk ChunkGenerator::makeChunk()
 		// Top face
 		if(currentPos3D + chunk_area >= chunk_volume || blocks[currentPos3D + chunk_area] == AIR)
 		{
-			std::vector<float> currentVPositions = topFace;
+			std::array<float, 12> currentVPositions = topFace;
 			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 			
-			std::vector<float> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Top);
+			std::array<float, 8> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Top);
 			texPositions.insert(texPositions.end(), currentTexPositions.begin(), currentTexPositions.end());
 
 			std::vector<unsigned int> i
@@ -207,12 +207,12 @@ Chunk ChunkGenerator::makeChunk()
 		// Bottom face
 		if(k == 0 || blocks[currentPos3D - chunk_area] == AIR)
 		{
-			std::vector<float> currentVPositions = bottomFace;
+			std::array<float, 12> currentVPositions = bottomFace;
 			translateVertices(currentVPositions, i, k, j);
 
 			vertexPositions.insert(vertexPositions.end(), currentVPositions.begin(), currentVPositions.end());
 			
-			std::vector<float> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Bottom);
+			std::array<float, 8> currentTexPositions = Utils::getTexPosFace(BlockType(blocks[currentPos3D]), Bottom);
 			texPositions.insert(texPositions.end(), currentTexPositions.begin(), currentTexPositions.end());
 
 			std::vector<unsigned int> i
@@ -226,13 +226,13 @@ Chunk ChunkGenerator::makeChunk()
 		}
 	}
 
-	m_height = rand() % 5 + 11;
-	chunk_volume = chunk_area * m_height;
+	//m_height = rand() % 5 + 11;
+	//chunk_volume = chunk_area * m_height;
 
 	return Chunk({vertexPositions, indices, texPositions}, blocks);
 }
 
-void ChunkGenerator::translateVertices(std::vector<float>& vertices, int x, int y, int z)
+void ChunkGenerator::translateVertices(std::array<float, 12>& vertices, int x, int y, int z)
 {
 	for(int i = 0; i < 12; i++)
 	{

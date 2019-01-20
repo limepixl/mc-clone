@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <array>
 #include "../Utils/Utils.hpp"
 #include "../Mesh/Mesh.hpp"
 #include <stdint.h>
@@ -29,5 +30,5 @@ public:
 	class Chunk makeChunk();
 
 private:
-	void translateVertices(std::vector<float>& vertices, int x, int y, int z);
+	void translateVertices(std::array<float, 12>& vertices, int x, int y, int z);
 };

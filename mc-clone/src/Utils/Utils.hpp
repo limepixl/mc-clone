@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <vector>
 
 enum BlockType
@@ -26,7 +27,5 @@ enum Side
 
 namespace Utils
 {
-	std::vector<float> getTexPositionsCube(BlockType type);
-
-	std::vector<float> getTexPosFace(BlockType type, Side side);
+	std::array<float, 8> getTexPosFace(BlockType type, Side side);
 }

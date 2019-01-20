@@ -9,14 +9,14 @@ class ChunkRenderer
 {
 private:
 	Shader m_shader = RM::loadShader("C:/dev/GitHub/mc-clone/mc-clone/res/shaders/blockV.glsl", "C:/dev/GitHub/mc-clone/mc-clone/res/shaders/blockF.glsl");
-	Texture m_atlas = RM::loadTexture("C:/dev/GitHub/mc-clone/mc-clone/res/images/simple.png");
+	Texture m_atlas = RM::loadTexture("C:/dev/GitHub/mc-clone/mc-clone/res/images/simple64x64.png");
 	Camera* m_cam;
 
 	std::vector<Chunk> m_chunks;
 
 	std::vector<Entity> m_entities;
 
-	ChunkGenerator m_generator = ChunkGenerator(16);
+	ChunkGenerator m_generator = ChunkGenerator(4);
 
 public:
 	ChunkRenderer(Camera* cam);

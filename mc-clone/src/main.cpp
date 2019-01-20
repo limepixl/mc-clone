@@ -1,6 +1,5 @@
 #include <glad/glad.h>
 #include "Display/Display.hpp"
-#include "Renderer/Renderer.hpp"
 #include "Renderer/ChunkRenderer.hpp"
 
 int main()
