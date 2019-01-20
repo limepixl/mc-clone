@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="src\Camera\Camera.cpp" />
     <ClCompile Include="glad\glad.c" />
+    <ClCompile Include="src\Chunk\Chunk.cpp" />
     <ClCompile Include="src\Chunk\ChunkGenerator.cpp" />
     <ClCompile Include="src\Display\Display.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -143,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.hpp" />
+    <ClInclude Include="src\Chunk\Chunk.hpp" />
     <ClInclude Include="src\Chunk\ChunkGenerator.hpp" />
     <ClInclude Include="src\Display\Display.hpp" />
     <ClInclude Include="src\Entity\Entity.hpp" />

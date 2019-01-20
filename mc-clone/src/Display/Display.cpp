@@ -34,6 +34,8 @@ Display::Display(int windowWidth, int windowHeight)
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+	glCullFace(GL_LEFT);
+	glCullFace(GL_RIGHT);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
