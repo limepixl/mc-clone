@@ -1,8 +1,9 @@
 #pragma once
 #include "../RM/ResourceManager.hpp"
 #include "../Camera/Camera.hpp"
-#include "../Mesh/Mesh.hpp"
+#include "../Chunk/Chunk.hpp"
 #include "../Entity/Entity.hpp"
+#include "../Chunk/ChunkGenerator.hpp"
 
 class ChunkRenderer
 {
@@ -11,9 +12,11 @@ private:
 	Texture m_atlas = RM::loadTexture("C:/dev/GitHub/mc-clone/mc-clone/res/images/simple.png");
 	Camera* m_cam;
 
-	Mesh m_chunk;
+	std::vector<Chunk> m_chunks;
 
 	std::vector<Entity> m_entities;
+
+	ChunkGenerator m_generator = ChunkGenerator(16);
 
 public:
 	ChunkRenderer(Camera* cam);
@@ -21,4 +24,6 @@ public:
 	void render();
 
 	void add(const Entity& entity);
+
+	void initialize();
 };
