@@ -6,3 +6,8 @@ An attempt at making some sort of Minecraft clone in OpenGL using C++. It has li
 * GLFW
 * GLM
 * stb_image
+
+### Images
+![1](https://raw.githubusercontent.com/limepixl/mc-clone/master/mc-clone/images/1.png)
+![2](https://raw.githubusercontent.com/limepixl/mc-clone/master/mc-clone/images/2.png)
+![3](https://raw.githubusercontent.com/limepixl/mc-clone/master/mc-clone/images/3.png)
