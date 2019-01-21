@@ -4,7 +4,7 @@
 
 int main()
 {
-	Display display(1280, 720);
+	Display display(1920, 1080);
 	Camera cam(&display);
 	ChunkRenderer renderer(&cam);
 

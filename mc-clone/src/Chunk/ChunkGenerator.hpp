@@ -24,8 +24,11 @@ public:
 
 	ChunkGenerator(int height);
 
-	// Generates an array of blocks
+	// Generates a vector of blocks
 	void generate();
+
+	// Generates a random vector of blocks
+	void generateRandom();
 	
 	// Creates the chunk from the array of blocks
 	class Chunk makeChunk();

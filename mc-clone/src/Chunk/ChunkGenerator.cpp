@@ -31,10 +31,30 @@ void ChunkGenerator::generate()
 	}
 }
 
+void ChunkGenerator::generateRandom()
+{
+	// If there is a chunk already generated, delete its blocks
+	if(!m_blocks.empty())
+	{
+		m_blocks.erase(m_blocks.begin(), m_blocks.end());
+	}
+
+	// Generate blocks in a vector based on conditions
+	for(int k = 0; k < m_height; k++)
+		for(int i = 0; i < chunk_dimension; i++)
+			for(int j = 0; j < chunk_dimension; j++)
+			{
+				m_blocks.push_back(BlockType(rand() % 9));
+			}
+}
+
 Chunk ChunkGenerator::makeChunk()
 {
 	// Generate the vector of blocks for checking
 	generate();
+
+	// Use randomized blocks
+	// generateRandom();
 
 	// The mesh's data
 	std::vector<float> vertexPositions;
