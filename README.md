@@ -7,10 +7,10 @@ Things to do:
 * Better randomized chunk generation for heighmap usage
 
 ### Dependencies:
-* GLAD
-* GLFW
-* GLM
-* stb_image
+* [glad](https://github.com/Dav1dde/glad)
+* [glfw](https://github.com/glfw/glfw)
+* [glm](https://github.com/g-truc/glm)
+* [stb_image](https://github.com/nothings/stb)
 
 ### Images
 ![Chunks with random heights](https://github.com/limepixl/mc-clone/blob/master/mc-clone/images/1.png)
