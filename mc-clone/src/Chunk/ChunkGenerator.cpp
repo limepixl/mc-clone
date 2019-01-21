@@ -1,9 +1,13 @@
 #include "ChunkGenerator.hpp"
 #include "Chunk.hpp"
+#include <random>
+#include <time.h>
 
 ChunkGenerator::ChunkGenerator(int height)
 	: m_height(height)
-{}
+{
+	std::srand(time(0)); // Seeding the rand function
+}
 
 void ChunkGenerator::generate()
 {
