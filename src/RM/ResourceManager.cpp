@@ -10,7 +10,7 @@
 // TODO: refactor resource manager fully
 namespace RM
 {
-	int numTexturesLoaded = 0;
+    int numTexturesLoaded = 0;
 
 	Shader loadShader(const char* vertexPath, const char* fragmentPath)
 	{

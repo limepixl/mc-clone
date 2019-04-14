@@ -7,7 +7,7 @@ public:
 	unsigned int VAO;	// Vertex array object
 	unsigned int EBO;	// Index/element buffer object
 
-	int vertexCount;
+    size_t vertexCount;
 
 private:
 	// All of the mesh's data: vertex positions,

@@ -19,7 +19,7 @@ void ChunkRenderer::render()
 
 	// Go through each chunk and translate it to the
 	// corresponding entity position
-	for(int i = 0; i < m_entities.size(); i++)
+    for(size_t i = 0; i < m_entities.size(); i++)
 	{
 		// The current chunk's mesh
 		auto& currentMesh = m_chunks[i].mesh;
@@ -31,7 +31,7 @@ void ChunkRenderer::render()
 		m_shader.setMat4(VIEW, m_cam->getViewMatrix());
 
 		currentMesh.bind();
-		glDrawElements(GL_TRIANGLES, currentMesh.vertexCount, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, currentMesh.vertexCount, GL_UNSIGNED_INT, nullptr);
 		currentMesh.unbind();
 	}
 }
@@ -43,7 +43,7 @@ void ChunkRenderer::add(const Entity& entity)
 
 void ChunkRenderer::populate()
 {
-	for(auto& entity : m_entities)
+    for(size_t i = 0; i < m_entities.size(); i++)
 	{
 		m_chunks.push_back(m_generator.makeChunk());
 	}

@@ -5,7 +5,7 @@ class Texture
 {
 public:
 	// Index of image as a texture unit
-	unsigned int index;
+    int index;
 
 private:
 	// Dimensions and format of image
@@ -16,7 +16,7 @@ private:
 	unsigned int m_ID;	// Texture object
 
 public:
-	Texture(unsigned char* data, unsigned int index, int width, int height, int channels);
+    Texture(unsigned char* data, int index, int width, int height, int channels);
 
 	// Bind or unbind texture
 	void bind();

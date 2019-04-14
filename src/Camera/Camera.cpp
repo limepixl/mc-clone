@@ -5,7 +5,7 @@
 Camera::Camera(Display* display)
 	: m_display(display)
 {
-	projMatrix = glm::perspective(glm::radians(50.0f), (float)display->width / display->height, 0.1f, 1000.0f);
+    projMatrix = glm::perspective(glm::radians(50.0f), static_cast<float>(display->width) / display->height, 0.1f, 1000.0f);
 
 	position = glm::vec3(0.0);
 	front = glm::vec3(0.0, 0.0, -1.0);
@@ -30,7 +30,7 @@ glm::mat4 Camera::getViewMatrix()
 
 void Camera::processCamKeyboard()
 {
-	speed = 10.0f * (float)m_display->deltaTime;
+    speed = 10.0f * static_cast<float>(m_display->deltaTime);
 
 	if(glfwGetKey(m_display->window, GLFW_KEY_W) == GLFW_PRESS)
 	{

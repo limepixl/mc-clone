@@ -2,13 +2,13 @@
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <glad/glad.h>
+#include <GL/glew.h>
 
 Shader::Shader(const char* vSource, const char* fSource)
 {
 	// Compile vertex shader
 	unsigned int vertex = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertex, 1, &vSource, 0);
+    glShaderSource(vertex, 1, &vSource, nullptr);
 	glCompileShader(vertex);
 
 	// Check compilation status
@@ -24,7 +24,7 @@ Shader::Shader(const char* vSource, const char* fSource)
 
 	// Compile fragment shader
 	unsigned int fragment = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment, 1, &fSource, 0);
+    glShaderSource(fragment, 1, &fSource, nullptr);
 	glCompileShader(fragment);
 
 	// Check compilation status

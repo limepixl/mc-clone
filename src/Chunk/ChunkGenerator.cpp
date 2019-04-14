@@ -6,7 +6,7 @@
 ChunkGenerator::ChunkGenerator(int height)
 	: m_height(height)
 {
-	std::srand(time(0)); // Seeding the rand function
+    std::srand(static_cast<unsigned>(time(nullptr))); // Seeding the rand function
 }
 
 void ChunkGenerator::generate()
@@ -19,7 +19,7 @@ void ChunkGenerator::generate()
 
 	// Generate blocks in a vector based on conditions
 	for(int k = 0; k < m_height; k++)
-	for(int i = 0; i < chunk_dimension; i++)
+    for(int i = 0; i < chunk_dimension; i++)
 	for(int j = 0; j < chunk_dimension; j++)
 	{
 		// First layer grass, 2 below dirt, 
@@ -120,16 +120,16 @@ Chunk ChunkGenerator::makeChunk()
 	unsigned int index = 0;
 
 	// Generate all the faces
-	for(int k = 0; k < m_height; k++)
-	for(int i = 0; i < chunk_dimension; i++)
-	for(int j = 0; j < chunk_dimension; j++)
+    for(int k = 0; k < m_height; k++)
+    for(int i = 0; i < chunk_dimension; i++)
+    for(int j = 0; j < chunk_dimension; j++)
 	{
-		// Current position in the vector indexed as 1D from 3D
-		int currentPos3D = i + j * chunk_dimension + k * chunk_area;
+        // Current position in the vector indexed as 1D from 3D
+        int currentPos3D = i + j * chunk_dimension + k * chunk_area;
 
 		// Current position in the vector containing a single
 		// layer (y coordinate) for local comparisons
-		int currentPos2D = currentPos3D - chunk_area * k;
+        int currentPos2D = currentPos3D - chunk_area * k;
 
 		// If the current block is air then move to the next block
 		if(m_blocks[currentPos3D] == AIR)
@@ -279,7 +279,7 @@ Chunk ChunkGenerator::makeChunk()
 
 void ChunkGenerator::translateVertices(std::array<float, 12>& vertices, int x, int y, int z)
 {
-	for(int i = 0; i < 12; i++)
+    for(size_t i = 0; i < 12; i++)
 	{
 		int coordinate = i % 3;
 		if(coordinate == 0)

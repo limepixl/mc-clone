@@ -15,9 +15,9 @@ private:
 	int m_height;
 
 	// Default chunk data
-	int chunk_dimension = 16; // n*n
-	int chunk_area = chunk_dimension * chunk_dimension;
-	int chunk_volume = chunk_dimension * chunk_dimension * m_height;
+    int chunk_dimension = 16; // n*n
+    int chunk_area = chunk_dimension * chunk_dimension;
+    int chunk_volume = chunk_dimension * chunk_dimension * m_height;
 
 public:
 	ChunkGenerator() = default;

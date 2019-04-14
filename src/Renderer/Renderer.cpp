@@ -92,7 +92,7 @@ void Renderer::render()
 		m_shader.setMat4(VIEW, m_cam->getViewMatrix());
 		
 		m_block.bind();
-		glDrawElements(GL_TRIANGLES, m_block.vertexCount, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, m_block.vertexCount, GL_UNSIGNED_INT, nullptr);
 		m_block.unbind();
 	}
 

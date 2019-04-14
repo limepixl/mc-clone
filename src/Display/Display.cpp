@@ -1,5 +1,5 @@
 #include "Display.hpp"
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 
@@ -64,9 +64,6 @@ void Display::init()
 	}
 	glfwMakeContextCurrent(window);
 
-	// GLAD init
-	if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
-	}
+    // GLEW init
+    glewInit();
 }

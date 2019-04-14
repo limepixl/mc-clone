@@ -9,10 +9,10 @@ class ChunkRenderer
 {
 private:
 	// Default block shader with very basic texture usage and no transparency
-	Shader m_shader = RM::loadShader("C:/dev/GitHub/mc-clone/mc-clone/res/shaders/blockV.glsl", "C:/dev/GitHub/mc-clone/mc-clone/res/shaders/blockF.glsl");
+    Shader m_shader = RM::loadShader("../mc-clone/res/shaders/blockV.glsl", "../mc-clone/res/shaders/blockF.glsl");
 
 	// Texture atlas 
-	Texture m_atlas = RM::loadTexture("C:/dev/GitHub/mc-clone/mc-clone/res/images/simple64x64.png");
+    Texture m_atlas = RM::loadTexture("../mc-clone/res/images/simple64x64.png");
 
 	// Camera for getting the necessary values
 	Camera* m_cam;

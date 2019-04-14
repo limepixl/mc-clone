@@ -1,11 +1,11 @@
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include "Display/Display.hpp"
 #include "Renderer/ChunkRenderer.hpp"
 
 int main()
 {
-	Display display(1920, 1080);
-	Camera cam(&display);
+    Display display(1280, 720);
+    Camera cam(&display);
 	ChunkRenderer renderer(&cam);
 
 	// Chunk creation
