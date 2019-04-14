@@ -13,6 +13,6 @@ Things to do:
 * [stb_image](https://github.com/nothings/stb)
 
 ### Images
-![Chunks with random heights](https://github.com/limepixl/mc-clone/blob/master/mc-clone/images/1.png)
-![Randomized basic blocks](https://github.com/limepixl/mc-clone/blob/master/mc-clone/images/2.png)
-![Randomized all blocks](https://github.com/limepixl/mc-clone/blob/master/mc-clone/images/3.png)
+![Chunks with random heights](https://github.com/limepixl/mc-clone/blob/master/images/1.png)
+![Randomized basic blocks](https://github.com/limepixl/mc-clone/blob/master/images/2.png)
+![Randomized all blocks](https://github.com/limepixl/mc-clone/blob/master/images/3.png)
