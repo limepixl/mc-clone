@@ -62,6 +62,5 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 
-mc-clone/glad/glad.c linguist-vendored
-mc-clone/src/RM/stb_image.h linguist-vendored
+src/RM/stb_image.h linguist-vendored
 
